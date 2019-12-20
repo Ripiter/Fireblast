@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Application\Application.cpp" />
+    <ClCompile Include="src\Application\WndWindow.cpp" />
+    <ClCompile Include="src\fbpch.cpp" />
+    <ClCompile Include="src\Application\Log.cpp" />
+    <ClCompile Include="src\Graphics\OpenGl\GLRenderCommands.cpp" />
+    <ClCompile Include="src\Graphics\OpenGl\GLVertexArray.cpp" />
+    <ClCompile Include="src\Graphics\OpenGl\GLVertexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Api\RenderAPI.cpp" />
+    <ClCompile Include="src\Application\Time.cpp" />
+    <ClCompile Include="src\Application\Input.cpp" />
+    <ClCompile Include="src\Utils\FileUtils.cpp" />
+    <ClCompile Include="src\Graphics\OpenGl\GLShader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Application\Application.h" />
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\Fireblast.h" />
+    <ClInclude Include="src\Application\WndWindow.h" />
+    <ClInclude Include="src\fbpch.h" />
+    <ClInclude Include="src\Application\Log.h" />
+    <ClInclude Include="src\Graphics\OpenGl\GLRenderCommands.h" />
+    <ClInclude Include="src\Graphics\OpenGl\GLVertexArray.h" />
+    <ClInclude Include="src\Graphics\OpenGl\GLVertexBuffer.h" />
+    <ClInclude Include="src\Graphics\Api\RenderAPI.h" />
+    <ClInclude Include="src\Graphics\Api\RenderCommands.h" />
+    <ClInclude Include="src\Graphics\Api\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Api\VertexBuffer.h" />
+    <ClInclude Include="src\Application\Time.h" />
+    <ClInclude Include="src\Event\Event.h" />
+    <ClInclude Include="src\Event\WindowEvent.h" />
+    <ClInclude Include="src\Event\MouseEvent.h" />
+    <ClInclude Include="src\Application\MouseButtons.h" />
+    <ClInclude Include="src\Event\KeyEvent.h" />
+    <ClInclude Include="src\Application\KeyCodes.h" />
+    <ClInclude Include="src\Application\Input.h" />
+    <ClInclude Include="src\Utils\FileUtils.h" />
+    <ClInclude Include="src\Graphics\Api\Shader.h" />
+    <ClInclude Include="src\Graphics\OpenGl\GLShader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\vFlatShader.txt" />
+    <Text Include="src\fFlatShader.txt" />
+  </ItemGroup>
+</Project>
