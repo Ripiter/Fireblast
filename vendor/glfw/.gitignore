@@ -1,12 +1,13 @@
-# The canonical out-of-tree build subdirectory
+	# The canonical out-of-tree build subdirectory
 build
 
 # Visual Studio clutter
 _ReSharper*
 *.sdf
 *.suo
+*.vcxproj
+*.vcxproj.filters
 *.dir
-*.vcxproj*
 *.sln
 .vs
 CMakeSettings.json
@@ -102,3 +103,6 @@ tests/title
 tests/triangle-vulkan
 tests/windows
 
+# Projects
+!src/glfw.vcxproj
+!src/glfw.vcxproj.filters
