@@ -1,8 +1,7 @@
 #include "fbpch.h"
 
 #include "glad/glad.h"
-#include "Utils/FileUtils.h"
-#include "Graphics/OpenGl/GLShader.h"
+#include "Graphics/OpenGl/GLVertexArray.h"
 
 #include "Core/Core.h"
 #include "application/Application.h"
@@ -17,6 +16,7 @@ namespace Fireblast {
 		m_WindowInstance = new WndWindow();
 	}
 
+	Fireblast::OpenGL::GLVertexArray* vao;
 	unsigned int vaoId;
 	unsigned int vboId;
 
@@ -50,14 +50,19 @@ namespace Fireblast {
 		_t[3] = -0.5f; _t[4] = -0.5f; _t[5] = 1.f;
 		_t[6] = 0.5f; _t[7] = -0.5f; _t[8] = 1.f;
 
+		/*vao = new Fireblast::OpenGL::GLVertexArray();*/
+
 		glGenVertexArrays(1, &vaoId);
 		glGenBuffers(1, &vboId);
 
+		/*vao->Bind();*/
 		glBindVertexArray(vaoId);
-		glBindBuffer(GL_ARRAY_BUFFER, vaoId);
+		glBindBuffer(GL_ARRAY_BUFFER, vboId);
 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(_t), &_t, GL_STATIC_DRAW);
 
+		/*vao->SetAttribPointer<float>(0, 3, false, 3, (void*)0);
+		vao->EnableAttribPointer(0);*/
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 

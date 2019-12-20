@@ -20,9 +20,14 @@ namespace Fireblast {
 			glDeleteVertexArrays(1, &m_Id);
 		}
 
-		void GLVertexArray::SetAttribDivider(unsigned int index, unsigned int divider)
+		/*void GLVertexArray::SetAttribPointer<T>(const int index, const int size, bool normalised, int primateSize, const void* pointer)
 		{
-			glVertexAttribDivisor(index, divider);
+			glVertexAttribPointer(index, size, GL_FLOAT, normalised, primateSize * sizeof(T), (void*)0);
+		}*/
+
+		void GLVertexArray::EnableAttribPointer(const int index)
+		{
+			glEnableVertexAttribArray(index);
 		}
 	}
 }

@@ -1,47 +1,136 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Application\Application.cpp" />
-    <ClCompile Include="src\Application\WndWindow.cpp" />
     <ClCompile Include="src\fbpch.cpp" />
-    <ClCompile Include="src\Application\Log.cpp" />
-    <ClCompile Include="src\Graphics\OpenGl\GLRenderCommands.cpp" />
-    <ClCompile Include="src\Graphics\OpenGl\GLVertexArray.cpp" />
-    <ClCompile Include="src\Graphics\OpenGl\GLVertexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Api\RenderAPI.cpp" />
-    <ClCompile Include="src\Application\Time.cpp" />
-    <ClCompile Include="src\Application\Input.cpp" />
-    <ClCompile Include="src\Utils\FileUtils.cpp" />
-    <ClCompile Include="src\Graphics\OpenGl\GLShader.cpp" />
+    <ClCompile Include="src\Application\Application.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\FileUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\OpenGl\GLRenderCommands.cpp">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\OpenGl\GLShader.cpp">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\OpenGl\GLVertexArray.cpp">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\OpenGl\GLVertexBuffer.cpp">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Input.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Log.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Api\RenderAPI.cpp">
+      <Filter>Graphics\Api</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Time.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\WndWindow.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application\Application.h" />
-    <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Fireblast.h" />
-    <ClInclude Include="src\Application\WndWindow.h" />
     <ClInclude Include="src\fbpch.h" />
-    <ClInclude Include="src\Application\Log.h" />
-    <ClInclude Include="src\Graphics\OpenGl\GLRenderCommands.h" />
-    <ClInclude Include="src\Graphics\OpenGl\GLVertexArray.h" />
-    <ClInclude Include="src\Graphics\OpenGl\GLVertexBuffer.h" />
-    <ClInclude Include="src\Graphics\Api\RenderAPI.h" />
-    <ClInclude Include="src\Graphics\Api\RenderCommands.h" />
-    <ClInclude Include="src\Graphics\Api\VertexArray.h" />
-    <ClInclude Include="src\Graphics\Api\VertexBuffer.h" />
-    <ClInclude Include="src\Application\Time.h" />
-    <ClInclude Include="src\Event\Event.h" />
-    <ClInclude Include="src\Event\WindowEvent.h" />
-    <ClInclude Include="src\Event\MouseEvent.h" />
-    <ClInclude Include="src\Application\MouseButtons.h" />
-    <ClInclude Include="src\Event\KeyEvent.h" />
-    <ClInclude Include="src\Application\KeyCodes.h" />
-    <ClInclude Include="src\Application\Input.h" />
-    <ClInclude Include="src\Utils\FileUtils.h" />
-    <ClInclude Include="src\Graphics\Api\Shader.h" />
-    <ClInclude Include="src\Graphics\OpenGl\GLShader.h" />
+    <ClInclude Include="src\Application\Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\Event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\FileUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\OpenGl\GLRenderCommands.h">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\OpenGl\GLShader.h">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\OpenGl\GLVertexArray.h">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\OpenGl\GLVertexBuffer.h">
+      <Filter>Graphics\OpenGl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Input.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\KeyCodes.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\KeyEvent.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Log.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\MouseButtons.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\MouseEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Api\RenderAPI.h">
+      <Filter>Graphics\Api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Api\RenderCommands.h">
+      <Filter>Graphics\Api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Api\VertexArray.h">
+      <Filter>Graphics\Api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Api\VertexBuffer.h">
+      <Filter>Graphics\Api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Time.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\WndWindow.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event\WindowEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Api\Shader.h">
+      <Filter>Graphics\Api</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\vFlatShader.txt" />
     <Text Include="src\fFlatShader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Application">
+      <UniqueIdentifier>{5a66667f-7dd0-414b-8cd1-ba0cade37c07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2ccb2852-4113-4b1a-b41b-2724715b3f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{7f124aca-28dd-4c14-bc72-9ed9b8a7c91b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5dc65940-bdc2-4fc9-ab67-0a15a1f2e64a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{288ffb97-8aa0-4217-b3a1-7a3b6ab47dcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Api">
+      <UniqueIdentifier>{50e92d1b-0711-40d0-919c-15acc4ed08c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGl">
+      <UniqueIdentifier>{7359a49a-a7af-433c-b965-42ef223ae71c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

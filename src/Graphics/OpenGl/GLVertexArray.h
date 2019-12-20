@@ -3,6 +3,7 @@
 
 namespace Fireblast {
 	namespace OpenGL {
+
 		class GLVertexArray : public VertexArray
 		{
 		private:
@@ -13,7 +14,11 @@ namespace Fireblast {
 			// Inherited via VertexArray
 			virtual void Bind() override;
 			virtual void Delete() override;
-			virtual void SetAttribDivider(unsigned int index, unsigned int divider) override;
+
+		public:
+			/*template <typename T>
+			void SetAttribPointer(const int index, const int size, bool normalised, int primateSize, const void* pointer);*/
+			void EnableAttribPointer(const int index);
 		};
 	}
 }
