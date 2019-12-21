@@ -68,8 +68,8 @@ namespace Fireblast {
 
 		Fireblast::Shader* _shader = Fireblast::RenderAPI::GetApi()->CreateShader
 		(
-			std::string("C:/repos/Fireblast/src/vFlatShader.txt"), 
-			std::string("C:/repos/Fireblast/src/fFlatShader.txt")
+			std::string("C:/Users/Emil/source/repos/Fireblast/src/vFlatShader.txt"), 
+			std::string("C:/Users/Emil/source/repos/Fireblast/src/fFlatShader.txt")
 		);
 
 		// Update loop

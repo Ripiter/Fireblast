@@ -12,7 +12,6 @@
 #include "Application/Input.h"
 
 // Math
-#include "glm/glm.hpp"
 
 // Utility
 #include "Utils/FileUtils.h"
