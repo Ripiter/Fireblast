@@ -354,7 +354,6 @@ MigrationBackup/
 
 # project files
 *.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
+*.csproj
+*.vcxproj*
 bin-int/
