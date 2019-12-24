@@ -1,6 +1,7 @@
 #include "fbpch.h"
 #include "GLVertexBuffer.h"
 #include "glad/glad.h"
+#include "GLRenderCommands.h"
 
 namespace Fireblast {
 	namespace OpenGL {
@@ -20,14 +21,23 @@ namespace Fireblast {
 			glDeleteBuffers(1, &m_Id);
 		}
 
-		void GLVertexBuffer::ReplaceData(const float *data)
+		void GLVertexBuffer::SetBufferData(const int size, const void* data, const BufferUsage usage)
 		{
+			glBufferData(GL_ARRAY_BUFFER, size, data, GLRenderCommands::PropertyToOpengl(usage));
 		}
 
-		void GLVertexBuffer::Init() {
-
+		void GLVertexBuffer::SetAttribPointer(const int index, const int size, const bool normalised, const int verticeSize, const void* pointer)
+		{
+			glVertexAttribPointer(index, size, GL_FLOAT, normalised, verticeSize * sizeof(float), pointer);
 		}
 
-
+		void GLVertexBuffer::EnableAttribPointer(const int index)
+		{
+			glEnableVertexAttribArray(index);
+		}
+		void GLVertexBuffer::SetLayout(const VertexBufferLayout& layout)
+		{
+			m_BufferLayout = layout;
+		}
 	}
 }

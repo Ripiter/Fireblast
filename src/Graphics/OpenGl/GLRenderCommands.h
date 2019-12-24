@@ -1,5 +1,6 @@
 #pragma once
 #include "Graphics/Api/RenderCommands.h"
+#include "Graphics/Api/RenderProperties.h"
 
 
 namespace Fireblast {
@@ -21,11 +22,43 @@ namespace Fireblast {
 
 			virtual void SetBlend(bool _enable) override;
 
+			virtual VertexArray* CreateVertexArray() override;
 
-			// Inherited via RenderCommands
+			virtual VertexBuffer* CreateVertexBuffer() override;
+
 			virtual Shader* CreateShader(const std::string vertexPath, const std::string fragmentPath) override;
 
 			virtual Shader* CreateShader(const char* vertexSource, const char* fragmentSource) override;
+
+		public:
+			static inline const unsigned int PropertyToOpengl(const Fireblast::BufferUsage usage) 
+			{
+				switch (usage) 
+				{
+				case BufferUsage::Static_Draw:
+					return 0x88E4;
+					break;
+				case BufferUsage::Dynamic_Draw:
+					return 0x88E8;
+					break;
+				}
+			}
+
+			static inline const unsigned int PropertyToOpengl(const Fireblast::RenderPrimitives primitives) 
+			{
+				switch (primitives)
+				{
+				case RenderPrimitives::Quads:
+					return 0x0007;
+					break;
+				case RenderPrimitives::Traingles_Strip:
+					return 0x0005;
+					break;
+				case RenderPrimitives::Triangles:
+					return 0x0004;
+					break;
+				}
+			}
 
 		};
 

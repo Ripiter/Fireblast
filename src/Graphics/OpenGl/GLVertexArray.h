@@ -8,6 +8,7 @@ namespace Fireblast {
 		{
 		private:
 			unsigned int m_Id;
+			VertexBuffer* m_VertexBuffer;
 		public:
 			GLVertexArray();
 
@@ -15,10 +16,10 @@ namespace Fireblast {
 			virtual void Bind() override;
 			virtual void Delete() override;
 
-		public:
-			/*template <typename T>
-			void SetAttribPointer(const int index, const int size, bool normalised, int primateSize, const void* pointer);*/
-			void EnableAttribPointer(const int index);
+			virtual void SetVertexBuffer(const VertexBuffer* vertexBuffer) override;
+
+			virtual void DrawArrays(const Fireblast::RenderPrimitives primitive, const unsigned int offset, const unsigned int count) override;
+
 		};
 	}
 }

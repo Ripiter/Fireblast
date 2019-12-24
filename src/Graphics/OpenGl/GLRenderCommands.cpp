@@ -6,6 +6,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Graphics/OpenGl/GLShader.h"
+#include "Graphics/OpenGl/GLVertexArray.h"
+#include "Graphics/OpenGl/GLVertexBuffer.h"
 #include "Utils/FileUtils.h"
 
 namespace Fireblast {
@@ -55,6 +57,16 @@ namespace Fireblast {
 			else {
 				glDisable(GL_BLEND);
 			}
+		}
+
+		VertexArray* GLRenderCommands::CreateVertexArray() 
+		{
+			return new GLVertexArray();
+		}
+
+		VertexBuffer* GLRenderCommands::CreateVertexBuffer()
+		{
+			return new GLVertexBuffer();
 		}
 
 		Shader* GLRenderCommands::CreateShader(const std::string vertexPath, const std::string fragmentPath)

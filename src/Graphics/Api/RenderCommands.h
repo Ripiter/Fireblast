@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Graphics/Api/Shader.h"
+#include "Graphics/Api/VertexArray.h"
+#include "Graphics/Api/VertexBuffer.h"
 
 namespace Fireblast {
 
@@ -14,13 +16,13 @@ namespace Fireblast {
 		virtual void SetBlend(bool _enable) = 0;
 		
 		// Create VAO
+		virtual VertexArray* CreateVertexArray() = 0;
+		virtual VertexBuffer* CreateVertexBuffer() = 0;
+
 		// Create VBO
 		// Create Shader
 		virtual Shader* CreateShader(const std::string vertexPath, const std::string fragmentPath) = 0;
 		virtual Shader* CreateShader(const char* vertexSource, const char* fragmentSource) = 0;
-		// Draw with vaos
-		// Draw with indicies
-		// Draw indicies instanced
 
 	};
 }

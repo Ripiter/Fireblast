@@ -1,13 +1,11 @@
 #include "fbpch.h"
 
-#include "glad/glad.h"
-#include "Graphics/OpenGl/GLVertexArray.h"
+#include "Graphics/Api/RenderAPI.h"
 
 #include "Core/Core.h"
 #include "application/Application.h"
 #include "Application/Log.h"
 #include "Application/Time.h"
-#include "Graphics/Api/RenderAPI.h"
 
 namespace Fireblast {
 
@@ -16,9 +14,9 @@ namespace Fireblast {
 		m_WindowInstance = new WndWindow();
 	}
 
-	Fireblast::OpenGL::GLVertexArray* vao;
-	unsigned int vaoId;
-	unsigned int vboId;
+	Fireblast::VertexArray* vao;
+	//Fireblast::OpenGL::GLVertexBuffer* vbo;
+	Fireblast::VertexBuffer* vbo;
 
 	float _t[3 * 3];
 
@@ -50,21 +48,17 @@ namespace Fireblast {
 		_t[3] = -0.5f; _t[4] = -0.5f; _t[5] = 1.f;
 		_t[6] = 0.5f; _t[7] = -0.5f; _t[8] = 1.f;
 
-		/*vao = new Fireblast::OpenGL::GLVertexArray();*/
+		vao = RenderAPI::GetApi()->CreateVertexArray();
+		vbo = RenderAPI::GetApi()->CreateVertexBuffer();
 
-		glGenVertexArrays(1, &vaoId);
-		glGenBuffers(1, &vboId);
+		vao->Bind();
+		vbo->Bind();
 
-		/*vao->Bind();*/
-		glBindVertexArray(vaoId);
-		glBindBuffer(GL_ARRAY_BUFFER, vboId);
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(_t), &_t, GL_STATIC_DRAW);
-
-		/*vao->SetAttribPointer<float>(0, 3, false, 3, (void*)0);
-		vao->EnableAttribPointer(0);*/
-		glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
+		vbo->SetBufferData(sizeof(_t), &_t, BufferUsage::Static_Draw);
+		vbo->SetLayout({
+			{0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0}
+		});
+		vao->SetVertexBuffer(vbo);
 
 		Fireblast::Shader* _shader = Fireblast::RenderAPI::GetApi()->CreateShader
 		(
@@ -90,7 +84,7 @@ namespace Fireblast {
 			OnDraw();
 
 			_shader->Bind();
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			vao->DrawArrays(RenderPrimitives::Triangles, 0, 3);
 
 			// Window event handling
 			m_WindowInstance->SwapBuffers();
