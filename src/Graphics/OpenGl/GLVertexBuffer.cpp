@@ -39,5 +39,15 @@ namespace Fireblast {
 		{
 			m_BufferLayout = layout;
 		}
+
+		void* GLVertexBuffer::GetPointer()
+		{
+			return glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		}
+
+		void GLVertexBuffer::ReleasePointer()
+		{
+			glUnmapBuffer(GL_ARRAY_BUFFER);
+		}
 	}
 }

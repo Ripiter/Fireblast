@@ -1,6 +1,7 @@
 #include "fbpch.h"
 
 #include "Graphics/Api/RenderAPI.h"
+#include "Graphics/Renderer2D.h"
 
 #include "Core/Core.h"
 #include "application/Application.h"
@@ -14,11 +15,6 @@ namespace Fireblast {
 		m_WindowInstance = new WndWindow();
 	}
 
-	Fireblast::VertexArray* vao;
-	//Fireblast::OpenGL::GLVertexBuffer* vbo;
-	Fireblast::VertexBuffer* vbo;
-
-	float _t[3 * 3];
 
 	void Application::Run()
 	{
@@ -43,28 +39,7 @@ namespace Fireblast {
 		float t1, t2;
 		t1 = t2 = WndWindow::GetTime();
 
-		// Render test
-		_t[0] = 0.f; _t[1] = 0.5f; _t[2] = 1.f;
-		_t[3] = -0.5f; _t[4] = -0.5f; _t[5] = 1.f;
-		_t[6] = 0.5f; _t[7] = -0.5f; _t[8] = 1.f;
-
-		vao = RenderAPI::GetApi()->CreateVertexArray();
-		vbo = RenderAPI::GetApi()->CreateVertexBuffer();
-
-		vao->Bind();
-		vbo->Bind();
-
-		vbo->SetBufferData(sizeof(_t), &_t, BufferUsage::Static_Draw);
-		vbo->SetLayout({
-			{0, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)0}
-		});
-		vao->SetVertexBuffer(vbo);
-
-		Fireblast::Shader* _shader = Fireblast::RenderAPI::GetApi()->CreateShader
-		(
-			std::string("C:/Users/Emil/source/repos/Fireblast/src/vFlatShader.txt"), 
-			std::string("C:/Users/Emil/source/repos/Fireblast/src/fFlatShader.txt")
-		);
+		Fireblast::Renderer2D::s_Renderer->Onstart();
 
 		// Update loop
 		while (m_IsRunning) {
@@ -74,7 +49,15 @@ namespace Fireblast {
 			Time::SetDeltaTime(t2 - t1);
 			t1 = t2;
 
+			Fireblast::Renderer2D::s_Renderer->BeginSubmit();
 			OnUpdate();
+			Fireblast::Renderer2D::s_Renderer->OnUpdate();
+
+			// Submit test
+			/*Fireblast::Renderer2D::s_Renderer->SubmitTriangle({ 0, 0, 1 }, { 0.2f, 0.2f }, { 1.f, 0.f, 0.f, 1.f });
+			Fireblast::Renderer2D::s_Renderer->SubmitTriangle({ 0.5f, 0, 1 }, { 0.2f, 0.2f }, { 0.f, 1.f, 0.f, 1.f });
+			Fireblast::Renderer2D::s_Renderer->SubmitTriangle({ -0.5f, 0, 1 }, { 0.2f, 0.2f }, { 0.f, 1.f, 1.f, 1.f });*/
+			Fireblast::Renderer2D::s_Renderer->SubmitQuad({ 0, 0, 1 }, { 0.2f, 0.2f }, { 1.f, 0.f, 0.f, 1.f });
 
 			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
@@ -82,9 +65,8 @@ namespace Fireblast {
 
 			// Draw to screen
 			OnDraw();
-
-			_shader->Bind();
-			vao->DrawArrays(RenderPrimitives::Triangles, 0, 3);
+			Fireblast::Renderer2D::s_Renderer->EndSubmit();
+			Fireblast::Renderer2D::s_Renderer->OnDraw();
 
 			// Window event handling
 			m_WindowInstance->SwapBuffers();

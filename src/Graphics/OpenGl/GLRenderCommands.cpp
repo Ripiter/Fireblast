@@ -8,6 +8,7 @@
 #include "Graphics/OpenGl/GLShader.h"
 #include "Graphics/OpenGl/GLVertexArray.h"
 #include "Graphics/OpenGl/GLVertexBuffer.h"
+#include "Graphics/OpenGl/GLIndexBuffer.h"
 #include "Utils/FileUtils.h"
 
 namespace Fireblast {
@@ -45,16 +46,18 @@ namespace Fireblast {
 
 		void GLRenderCommands::GetRendererErrors()
 		{
-			FB_ASSERT(glGetError() == GL_NO_ERROR, "Opengl error: {0}", glGetError());
+			FB_ASSERT(glGetError() == GL_NO_ERROR, "Opengl error: " + glGetError());
 		}
 
 		void GLRenderCommands::SetBlend(bool _enable)
 		{
-			if (_enable) {
+			if (_enable) 
+			{
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
-			else {
+			else 
+			{
 				glDisable(GL_BLEND);
 			}
 		}
@@ -67,6 +70,11 @@ namespace Fireblast {
 		VertexBuffer* GLRenderCommands::CreateVertexBuffer()
 		{
 			return new GLVertexBuffer();
+		}
+
+		IndexBuffer* GLRenderCommands::CreateIndexBuffer(const unsigned int size)
+		{
+			return new GLIndexBuffer(size);
 		}
 
 		Shader* GLRenderCommands::CreateShader(const std::string vertexPath, const std::string fragmentPath)

@@ -14,8 +14,6 @@ class Game : public Fireblast::Application {
 
 	virtual void OnUpdate() override
 	{
-		
-
 	}
 
 	virtual void OnDraw() override

@@ -26,6 +26,8 @@ namespace Fireblast {
 
 			virtual VertexBuffer* CreateVertexBuffer() override;
 
+			virtual IndexBuffer* CreateIndexBuffer(const unsigned int size) override;
+
 			virtual Shader* CreateShader(const std::string vertexPath, const std::string fragmentPath) override;
 
 			virtual Shader* CreateShader(const char* vertexSource, const char* fragmentSource) override;
@@ -56,6 +58,19 @@ namespace Fireblast {
 					break;
 				case RenderPrimitives::Triangles:
 					return 0x0004;
+					break;
+				}
+			}
+
+			static inline const unsigned int PropertyToOpengl(const Fireblast::ShaderType type)
+			{
+				switch (type)
+				{
+				case ShaderType::Float:
+					return 0x1406;
+					break;
+				case ShaderType::Int:
+					return 0x1404;
 					break;
 				}
 			}

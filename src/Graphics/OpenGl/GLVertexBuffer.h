@@ -16,6 +16,8 @@ namespace Fireblast {
 			virtual void Delete() override;
 			void SetBufferData(const int size, const void* data, const BufferUsage usage) override;
 			virtual void SetLayout(const VertexBufferLayout& layout) override;
+			virtual void* GetPointer() override;
+			virtual void ReleasePointer() override;
 
 		public:
 			inline virtual const VertexBufferLayout& GetLayout() const override 
@@ -25,9 +27,7 @@ namespace Fireblast {
 
 		public:
 			void SetAttribPointer(const int index, const int size, const bool normalised, const int verticeSize, const void* pointer);
-			void EnableAttribPointer(const int index);		
-
-			
+			void EnableAttribPointer(const int index);				
 		};
 	}
 }

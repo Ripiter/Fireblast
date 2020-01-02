@@ -8,15 +8,14 @@ namespace Fireblast
 	public:
 		unsigned int Index;
 		unsigned int Size;
-		unsigned int Type;
+		Fireblast::ShaderType Type;
 		bool Normalised;
-		unsigned int Stride;
 		void* DataPointer;
 	public:
 		VertexBufferElement() = default;
 
-		VertexBufferElement(const unsigned int index, const unsigned int size, const unsigned int type, const bool normalised, const unsigned int stride, void* dataPointer)
-			: Index(index), Size(size), Type(type), Normalised(normalised), Stride(stride), DataPointer(dataPointer) {}
+		VertexBufferElement(const unsigned int index, const unsigned int size, const Fireblast::ShaderType type, const bool normalised)
+			: Index(index), Size(size), Type(type), Normalised(normalised), DataPointer(0) {}
 	};
 
 	class VertexBufferLayout 
@@ -29,7 +28,8 @@ namespace Fireblast
 		VertexBufferLayout() {}
 
 		VertexBufferLayout(const std::initializer_list<VertexBufferElement>& elements) : m_Elements(elements)
-		{		
+		{
+			CalculateStride();
 		}
 
 		inline uint32_t GetStride() const { return m_Stride; }
@@ -39,5 +39,19 @@ namespace Fireblast
 		std::vector<VertexBufferElement>::iterator end() { return m_Elements.end(); }
 		std::vector<VertexBufferElement>::const_iterator begin() const { return m_Elements.begin(); }
 		std::vector<VertexBufferElement>::const_iterator end() const { return m_Elements.end(); }
+
+	private:
+
+		inline void CalculateStride()
+		{
+			unsigned long offset = 0;
+			m_Stride = 0;
+
+			for (auto& element : m_Elements )
+			{
+				element.DataPointer = (void*)m_Stride;
+				m_Stride += element.Size * sizeof(float);
+			}
+		}
 	};
 }

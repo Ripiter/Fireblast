@@ -18,6 +18,7 @@ namespace Fireblast {
 		// Create VAO
 		virtual VertexArray* CreateVertexArray() = 0;
 		virtual VertexBuffer* CreateVertexBuffer() = 0;
+		virtual IndexBuffer* CreateIndexBuffer(const unsigned int size) = 0;
 
 		// Create VBO
 		// Create Shader

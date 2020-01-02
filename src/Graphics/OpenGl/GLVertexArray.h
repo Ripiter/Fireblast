@@ -17,9 +17,10 @@ namespace Fireblast {
 			virtual void Delete() override;
 
 			virtual void SetVertexBuffer(const VertexBuffer* vertexBuffer) override;
+			virtual void SetIndexBuffer(IndexBuffer* const indexBuffer) override;
 
 			virtual void DrawArrays(const Fireblast::RenderPrimitives primitive, const unsigned int offset, const unsigned int count) override;
-
+			virtual void DrawIndicies(const Fireblast::RenderPrimitives primitive, const unsigned int count) override;
 		};
 	}
 }

@@ -28,14 +28,24 @@ namespace Fireblast {
 
 			for (const auto& element : layout)
 			{
-				glVertexAttribPointer(element.Index, element.Size, element.Type, element.Normalised, element.Stride, element.DataPointer);
+				glVertexAttribPointer(element.Index, element.Size, GLRenderCommands::PropertyToOpengl(element.Type), element.Normalised, layout.GetStride(), element.DataPointer);
 				glEnableVertexAttribArray(element.Index);
 			}
+		}
+
+		void GLVertexArray::SetIndexBuffer(IndexBuffer* const indexBuffer)
+		{
+			indexBuffer->Bind();
 		}
 
 		void GLVertexArray::DrawArrays(const Fireblast::RenderPrimitives primitive, const unsigned int offset, const unsigned int count)
 		{
 			glDrawArrays(GLRenderCommands::PropertyToOpengl(primitive), offset, count);
+		}
+
+		void GLVertexArray::DrawIndicies(const Fireblast::RenderPrimitives primitive, const unsigned int count)
+		{
+			glDrawElements(GLRenderCommands::PropertyToOpengl(primitive), count, GL_UNSIGNED_INT, NULL);
 		}
 
 
