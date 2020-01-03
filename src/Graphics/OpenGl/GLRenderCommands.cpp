@@ -1,5 +1,4 @@
 #include "fbpch.h"
-
 #include "Application/Log.h"
 #include "Core/Core.h"
 #include "GLRenderCommands.h"
@@ -9,6 +8,7 @@
 #include "Graphics/OpenGl/GLVertexArray.h"
 #include "Graphics/OpenGl/GLVertexBuffer.h"
 #include "Graphics/OpenGl/GLIndexBuffer.h"
+#include "Graphics/OpenGl/GLTexture.h"
 #include "Utils/FileUtils.h"
 
 namespace Fireblast {
@@ -67,9 +67,20 @@ namespace Fireblast {
 			return new GLVertexArray();
 		}
 
-		VertexBuffer* GLRenderCommands::CreateVertexBuffer()
+		VertexBuffer* GLRenderCommands::CreateVertexBuffer(const unsigned int size)
 		{
-			return new GLVertexBuffer();
+			GLVertexBuffer* _p = new GLVertexBuffer();
+			_p->Bind();
+			_p->SetBufferData(size, NULL, Fireblast::BufferUsage::Dynamic_Draw);
+			return _p;
+		}
+
+		VertexBuffer* GLRenderCommands::CreateVertexBuffer(void* data)
+		{
+			GLVertexBuffer* _p = new GLVertexBuffer();
+			_p->Bind();
+			_p->SetBufferData(sizeof(data), data, Fireblast::BufferUsage::Static_Draw);
+			return _p;
 		}
 
 		IndexBuffer* GLRenderCommands::CreateIndexBuffer(const unsigned int size)
@@ -88,6 +99,29 @@ namespace Fireblast {
 		Shader* GLRenderCommands::CreateShader(const char* vertexSource, const char* fragmentSource)
 		{
 			return new GLShader(vertexSource, fragmentSource);
+		}
+
+		Texture* GLRenderCommands::CreateTexture(const std::string path)
+		{
+			unsigned int width, height;
+
+			unsigned char* data = Fireblast::FileUtils::ReadImageData(path, &width, &height);
+
+			Texture* text = new GLTexture();
+			text->Bind();
+			text->SetData(data, width, height);
+
+			delete[] data;
+			return text;
+		}
+
+		Texture* GLRenderCommands::CreateTexture(const void* data, const unsigned int width, const unsigned int height)
+		{
+			Texture* text = new GLTexture();
+			text->Bind();
+			text->SetData((unsigned char*)data, width, height);
+
+			return text;
 		}
 
 	}

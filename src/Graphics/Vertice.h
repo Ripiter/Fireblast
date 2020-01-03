@@ -8,6 +8,7 @@ namespace Fireblast
 	{
 		glm::vec3 Vertice;
 		glm::vec4 Color;
+		glm::vec2 Uv;
 	};
 
 	struct Vertex3D

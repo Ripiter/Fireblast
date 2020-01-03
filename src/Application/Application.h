@@ -1,7 +1,8 @@
 #pragma once
 #include "WndWindow.h"
 #include "Application/Input.h"
-#include "Graphics/OpenGl/GLRenderCommands.h"
+#include "Application/Log.h"
+#include "Application/Time.h"
 
 namespace Fireblast {
 	class Application

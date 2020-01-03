@@ -24,13 +24,19 @@ namespace Fireblast {
 
 			virtual VertexArray* CreateVertexArray() override;
 
-			virtual VertexBuffer* CreateVertexBuffer() override;
+			virtual VertexBuffer* CreateVertexBuffer(const unsigned int size) override;
+
+			virtual VertexBuffer* CreateVertexBuffer(void* data) override;
 
 			virtual IndexBuffer* CreateIndexBuffer(const unsigned int size) override;
 
 			virtual Shader* CreateShader(const std::string vertexPath, const std::string fragmentPath) override;
 
 			virtual Shader* CreateShader(const char* vertexSource, const char* fragmentSource) override;
+
+			// Textures
+			virtual Texture* CreateTexture(const std::string path) override;
+			virtual Texture* CreateTexture(const void* data, const unsigned int width, const unsigned int height) override;
 
 		public:
 			static inline const unsigned int PropertyToOpengl(const Fireblast::BufferUsage usage) 

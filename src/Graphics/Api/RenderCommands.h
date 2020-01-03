@@ -3,6 +3,8 @@
 #include "Graphics/Api/Shader.h"
 #include "Graphics/Api/VertexArray.h"
 #include "Graphics/Api/VertexBuffer.h"
+#include "Graphics/Api/Texture.h"
+
 
 namespace Fireblast {
 
@@ -15,15 +17,19 @@ namespace Fireblast {
 		virtual void GetRendererErrors() = 0;
 		virtual void SetBlend(bool _enable) = 0;
 		
-		// Create VAO
+		// Buffers
 		virtual VertexArray* CreateVertexArray() = 0;
-		virtual VertexBuffer* CreateVertexBuffer() = 0;
+		virtual VertexBuffer* CreateVertexBuffer(const unsigned int size) = 0;
+		virtual VertexBuffer* CreateVertexBuffer(void* data) = 0;
 		virtual IndexBuffer* CreateIndexBuffer(const unsigned int size) = 0;
 
-		// Create VBO
 		// Create Shader
 		virtual Shader* CreateShader(const std::string vertexPath, const std::string fragmentPath) = 0;
 		virtual Shader* CreateShader(const char* vertexSource, const char* fragmentSource) = 0;
 
+
+		// Textures
+		virtual Texture* CreateTexture(const std::string path) = 0;
+		virtual Texture* CreateTexture(const void* data, const unsigned int width, const unsigned int height) = 0;
 	};
 }

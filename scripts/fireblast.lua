@@ -23,6 +23,7 @@ IncludeDir["GLFW"] = "../vendor/glfw/include"
 IncludeDir["Glad"] = "../vendor/glad/include"
 IncludeDir["glm"] = "../vendor/glm"
 IncludeDir["spdlog"] = "../vendor/spdlog/include"
+IncludeDir["stb"] = "../vendor/stb"
 
 
 group "Dependencies"
@@ -48,6 +49,8 @@ project "Fireblast"
 	{
 		"../src/**.h",	
 		"../src/**.cpp",
+		"../vendor/stb/**.h",
+		"../vendor/stb/**.cpp",
 		"../vendor/glm/glm/**.hpp",
 		"../vendor/glm/glm/**.inl",
 	}
@@ -58,7 +61,8 @@ project "Fireblast"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.spdlog}"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.stb}"
 	}
 
 	links 
@@ -107,6 +111,8 @@ project "Sandbox2D"
 		"../src",
 		"../vendor",
 		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}",
 		"%{IncludeDir.spdlog}"
 	}
 
