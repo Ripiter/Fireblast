@@ -26,6 +26,10 @@ namespace Fireblast
 
 		void SetScale(glm::vec3 scale) { m_Scale = scale; }
 		void Scale(glm::vec3 value) { m_Scale += value; }
+
+		const glm::vec3& GetPosition() const { return m_Position; }
+		const glm::vec3& GetRotation() const { return m_Rotation; }
+		const glm::vec3& GetScale() const { return m_Scale; }
 	public:
 		const glm::mat4& GetTranslationMatrix() const
 		{

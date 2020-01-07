@@ -26,5 +26,5 @@ namespace Fireblast {
 #define FB_INFO(...)			::Fireblast::Log::GetClientLogger()->info(__VA_ARGS__)
 #define FB_TRACE(...)			::Fireblast::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define FB_WARN(...)			::Fireblast::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define FB_ERROR(...)			Fireblast::Log::GetClientLogger()->error(__VA_ARGS__)
+#define FB_ERROR(...)			::Fireblast::Log::GetClientLogger()->error(__VA_ARGS__)
 #define FB_CRITICAL(...)		::Fireblast::Log::GetClientLogger()->critical(__VA_ARGS__)

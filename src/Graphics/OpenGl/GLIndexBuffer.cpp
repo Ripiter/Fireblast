@@ -53,7 +53,7 @@ namespace Fireblast { namespace OpenGL {
 
 	void GLIndexBuffer::SetIndicies(unsigned int* const indicies)
 	{
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies) * 6, indicies, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies) * 6 * sizeof(int), indicies, GL_STATIC_DRAW);
 	}
 
 }}

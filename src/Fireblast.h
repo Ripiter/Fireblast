@@ -2,6 +2,7 @@
 
 // Core
 #include "Core/Core.h"
+#include "Core/Scene.h"
 
 // Application
 #include "Application/Application.h"

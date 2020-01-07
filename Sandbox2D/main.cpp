@@ -2,37 +2,57 @@
 #include "Graphics/Api/RenderAPI.h"
 #include "Graphics/Renderer2D.h"
 
-class SpriteEntity : public Fireblast::Entity 
+class SimpleEntity : public Fireblast::Entity
 {
-public:
+private:
+	Fireblast::Texture* texture;
 	Fireblast::Transform* transform;
-
-	SpriteEntity()
+public:
+	SimpleEntity(Fireblast::Texture* text) : Entity(), texture(nullptr), transform(nullptr)
 	{
-		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 1 }, { 0.5f, 0.5f }, Fireblast::RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png")));
+		texture = text;
+	}
+
+protected:
+	// Inherited via Entity
+	virtual void OnStart() override
+	{
+		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 0.5f, 0.5f }, texture));
 		transform = GetComponent<Fireblast::Transform>();
 	}
 
-	// Inherited via Entity
-	virtual void Start() override
+	virtual void OnUpdate() override
 	{
-		
+		transform->Rotate({ 0, 0, 0.1f });
+	}
+};
+
+class Level : public Fireblast::Scene
+{
+	Fireblast::Texture* textu;
+
+	// Inherited via Scene
+	virtual void OnStart() override
+	{
+		textu = Fireblast::RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png");
+		SpawnEntity(new SimpleEntity(textu));
+		SpawnEntity(new SimpleEntity(textu), { 0.5f, -0.5f, 1.f});
+		SpawnEntity(new SimpleEntity(textu), { 0.5f, 0.5f, 1.f});
+		//SpawnEntity(new SimpleEntity(), { -0.5f, 0.f, 1.f});
+
 	}
 
-	virtual void Update() override
+	virtual void OnUpdate() override
 	{
-		//transform->Translate(glm::vec3(0.001f, 0.f, 0.f));
-		transform->Rotate({0, 0, 0.001f});
 	}
 
-	void Draw() 
+	void Draw()
 	{
 	}
 };
 
 class Game : public Fireblast::Application {
 
-	SpriteEntity* sp;
 
 	virtual void OnStart() override
 	{
@@ -41,21 +61,18 @@ class Game : public Fireblast::Application {
 
 	virtual void OnAfterStart() override {
 		Fireblast::FileUtils::FlipImages(true);
-		sp = new SpriteEntity();
+		Fireblast::Scene::LoadScene(std::make_shared<Level>());
 	}
 
 	virtual void OnUpdate() override
 	{
-		sp->Update();
 	}
 
 	virtual void OnDraw() override
 	{
-		sp->Draw();
 	}
 
 	virtual ~Game() override {
-		delete sp;
 	}
 
 };

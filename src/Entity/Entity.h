@@ -7,12 +7,18 @@ namespace Fireblast
 {
 	class Entity
 	{
+		friend class Scene;
+
 	private:
 		unsigned int m_Id;
 		std::vector<Component*> m_Components;
+
+	private:
+		void Start();
+		void Update();
 	protected:
-		virtual void Start() = 0;
-		virtual void Update() = 0;
+		virtual void OnStart() = 0;
+		virtual void OnUpdate() = 0;
 	public:
 		Entity();
 		virtual ~Entity();
@@ -37,6 +43,7 @@ namespace Fireblast
 		std::vector<Component*>::const_iterator end() const { return m_Components.end(); }
 
 	private:
+		// TODO make it so it can detect sub classes or super classes
 		template<typename T>
 		const T* GetComponentInternal() const
 		{

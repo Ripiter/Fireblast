@@ -16,7 +16,6 @@ namespace Fireblast
 		Shader* m_FlatShader;
 		const unsigned int m_VertexBufferSize = 100000;
 		unsigned int m_VerticeAmount;
-		std::vector<Entity*> m_Entities;
 	public:
 		static std::shared_ptr<Renderer2D> s_Renderer;
 	public:

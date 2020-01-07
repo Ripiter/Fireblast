@@ -1,5 +1,6 @@
 #include "fbpch.h"
 #include "Renderer2D.h"
+#include "Core/Scene.h"
 #include <Entity\Component\SpriteComponent.h>
 #include <Entity\Component\Transform.h>
 
@@ -55,6 +56,8 @@ namespace Fireblast
 
 	void Fireblast::Renderer2D::OnUpdate()
 	{
+		std::vector<Entity*>& m_Entities = Fireblast::Scene::GetCurrentScene()->m_Entities;
+
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{
 			auto* transform = m_Entities[i]->GetComponent<Transform>();
@@ -101,7 +104,7 @@ namespace Fireblast
 
 	void Renderer2D::SubmitEntity(Entity* entity)
 	{
-		m_Entities.push_back(entity);
+		//m_Entities.push_back(entity);
 	}
 
 	void Fireblast::Renderer2D::OnDraw()
