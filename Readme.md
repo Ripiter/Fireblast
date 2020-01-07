@@ -14,3 +14,11 @@ To use the engine in another project, you have to link the static build librarie
 
 ## Future Features
 You can see what is planned for the next release in [TODO](Todo.md).
+
+## The Plan
+The plan for this game engine, is to be able to do everything from the code side.
+So that no end-user is dependent on the editor.
+Ofcourse those that want the editor features, will also get those.
+
+## How To Commit
+Create a pull request and if the work is something that i like, i will add it.
