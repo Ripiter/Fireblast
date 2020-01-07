@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Graphics/Api/Shader.h"
 #include "Graphics/Api/VertexArray.h"
 #include "Graphics/Api/VertexBuffer.h"

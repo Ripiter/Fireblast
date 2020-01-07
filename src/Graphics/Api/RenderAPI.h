@@ -6,7 +6,7 @@
 
 namespace Fireblast {
 
-	enum RenderVendor {
+	enum class RenderVendor {
 		none,
 		Opengl,
 		DirectX

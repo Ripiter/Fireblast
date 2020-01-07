@@ -2,7 +2,7 @@
 namespace Fireblast {
 	enum class KeyCodes : uint32_t 
 	{
-		UNKNOWN = - 1,
+		UNKNOWN = 0,
 
 		SPACE= 32,
 

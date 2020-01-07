@@ -48,10 +48,6 @@ namespace Fireblast {
 			OnUpdate();
 			Fireblast::Renderer2D::s_Renderer->OnUpdate();
 
-			// Submit test
-			Fireblast::Renderer2D::s_Renderer->SubmitQuad({ 0, 0, 1 }, { 0.2f, 0.2f }, { 1.f, 1.f, 1.f, 1.f });
-			Fireblast::Renderer2D::s_Renderer->SubmitQuad({ 0.6f, 0, 1 }, { 0.2f, 0.2f }, { 1.f, 1.f, 1.f, 1.f });
-
 			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
 			RenderAPI::GetApi()->Clear();
@@ -75,10 +71,12 @@ namespace Fireblast {
 
 	};
 
-	void Application::OnApplicationEvent(Event& event) {
+	void Application::OnApplicationEvent(Event& event) 
+	{
 	}
 
-	Application::~Application() {
+	Application::~Application() 
+	{
 
 	}
 };

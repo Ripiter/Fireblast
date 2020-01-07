@@ -1,13 +1,13 @@
 #include "fbpch.h"
 #include "Renderer2D.h"
+#include <Entity\Component\SpriteComponent.h>
+#include <Entity\Component\Transform.h>
 
 namespace Fireblast 
 {
 	Vertex2D* m_BufferPointer;
-	Fireblast::Renderer2D* Fireblast::Renderer2D::s_Renderer = new Fireblast::Renderer2D();
+	std::shared_ptr<Renderer2D> Fireblast::Renderer2D::s_Renderer = std::make_shared<Renderer2D>();
 
-	// TEST
-	Fireblast::Texture* text;
 
 	void Fireblast::Renderer2D::InitBuffers()
 	{
@@ -51,64 +51,45 @@ namespace Fireblast
 
 		FileUtils::FlipImages(true);
 
-		text = RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png");
 	}
 
 	void Fireblast::Renderer2D::OnUpdate()
 	{
-		
+		for (unsigned int i = 0; i < m_Entities.size(); i++)
+		{
+			auto* transform = m_Entities[i]->GetComponent<Transform>();
+
+			auto* it = m_Entities[i]->GetComponent<SpriteComponent>();
+			if (!it)
+				continue;
+
+			glm::mat4 modelMat = transform->GetTransformMatrix();
+
+			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[0].Vertice.x, it->m_Vertices[0].Vertice.y, it->m_Vertices[0].Vertice.z, 1.0f);
+			m_BufferPointer->Color = it->m_Vertices[0].Color;
+			m_BufferPointer->Uv = it->m_Vertices[0].Uv;
+			m_BufferPointer++;
+
+			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[1].Vertice.x, it->m_Vertices[1].Vertice.y, it->m_Vertices[1].Vertice.z, 1.0f);
+			m_BufferPointer->Color = it->m_Vertices[1].Color;
+			m_BufferPointer->Uv = it->m_Vertices[1].Uv;
+			m_BufferPointer++;
+
+			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[2].Vertice.x, it->m_Vertices[2].Vertice.y, it->m_Vertices[2].Vertice.z, 1.0f);
+			m_BufferPointer->Color = it->m_Vertices[2].Color;
+			m_BufferPointer->Uv = it->m_Vertices[2].Uv;
+			m_BufferPointer++;
+
+			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[3].Vertice.x, it->m_Vertices[3].Vertice.y, it->m_Vertices[3].Vertice.z, 1.0f);
+			m_BufferPointer->Color = it->m_Vertices[3].Color;
+			m_BufferPointer->Uv = it->m_Vertices[3].Uv;
+			m_BufferPointer++;
+
+			m_VerticeAmount += 6;
+
+		}
 	}
 
-	void Fireblast::Renderer2D::SubmitQuad(const glm::vec3 centerPos, const glm::vec2 size, const glm::vec4 color)
-	{
-		Vertex2D _data[4];
-
-		_data[0].Vertice = glm::vec3(centerPos.x - size.x / 2, centerPos.y + size.y / 2, centerPos.z);
-		_data[0].Color = color;
-		_data[0].Uv = glm::vec2(0, 1);
-
-		_data[1].Vertice = glm::vec3(centerPos.x + size.x / 2, centerPos.y + size.y / 2, centerPos.z);
-		_data[1].Color = color;
-		_data[1].Uv = glm::vec2(1, 1);
-
-		_data[2].Vertice = glm::vec3(centerPos.x + size.x / 2, centerPos.y - size.y / 2, centerPos.z);
-		_data[2].Color = color;
-		_data[2].Uv = glm::vec2(1, 0);
-
-		_data[3].Vertice = glm::vec3(centerPos.x - size.x / 2, centerPos.y - size.y / 2, centerPos.z);
-		_data[3].Color = color;
-		_data[3].Uv = glm::vec2(0, 0);
-
-		SubmitVertice(_data[0]);
-		SubmitVertice(_data[1]);
-		SubmitVertice(_data[2]);
-		SubmitVertice(_data[3]);
-
-		m_VerticeAmount += 6;
-	}
-
-	void Fireblast::Renderer2D::SubmitTriangle(const glm::vec3 centerPos, const glm::vec2 size, const glm::vec4 color)
-	{
-		Vertex2D _data[3];
-
-		_data[0].Vertice = glm::vec3(centerPos.x, centerPos.y + size.y / 2, centerPos.z);
-		_data[0].Color = color;
-		_data[0].Uv = glm::vec2(0.5f, 1.f);
-
-		_data[1].Vertice = glm::vec3(centerPos.x + size.x / 2, centerPos.y - size.y / 2, centerPos.z);
-		_data[1].Color = color;
-		_data[1].Uv = glm::vec2(1.f, 0.f);
-
-		_data[2].Vertice = glm::vec3(centerPos.x - size.x / 2, centerPos.y - size.y / 2, centerPos.z);
-		_data[2].Color = color;
-		_data[2].Uv = glm::vec2(0, 0);
-
-		SubmitVertice(_data[0]);
-		SubmitVertice(_data[1]);
-		SubmitVertice(_data[2]);
-
-		m_VerticeAmount += 6;
-	}
 
 	void Fireblast::Renderer2D::SubmitVertice(const Vertex2D& vertice)
 	{
@@ -118,15 +99,16 @@ namespace Fireblast
 		m_BufferPointer++;
 	}
 
+	void Renderer2D::SubmitEntity(Entity* entity)
+	{
+		m_Entities.push_back(entity);
+	}
+
 	void Fireblast::Renderer2D::OnDraw()
 	{
 		RenderAPI::GetApi()->SetBlend(true);
 
 		m_FlatShader->Bind();
-
-		// Texture test
-		text->ActivateTexture(0);
-		text->Bind();
 		
 		m_Ibo->Bind();
 		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);

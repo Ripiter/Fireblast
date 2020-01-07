@@ -3,7 +3,7 @@
 
 namespace Fireblast {
 
-	WndWindow::WndWindow() : m_WindowHandle(NULL)
+	WndWindow::WndWindow() : m_WindowHandle(NULL), m_Data()
 	{
 		m_Data.Width = 800;
 		m_Data.Height = 600;

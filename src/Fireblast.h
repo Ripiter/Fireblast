@@ -15,3 +15,7 @@
 
 // Utility
 #include "Utils/FileUtils.h"
+
+// Entity
+#include "Entity/Entity.h"
+#include "Entity/Component/Components.h"
