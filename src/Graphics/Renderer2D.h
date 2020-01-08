@@ -24,9 +24,9 @@ namespace Fireblast
 
 		void BeginSubmit();
 		void EndSubmit();
-		void Onstart();
-		void OnUpdate();
-		void OnDraw();
+		void Start();
+		void Update();
+		void Draw();
 
 		void SubmitEntity(Entity* entity);
 		

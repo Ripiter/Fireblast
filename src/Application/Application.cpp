@@ -35,7 +35,7 @@ namespace Fireblast {
 		float t1, t2;
 		t1 = t2 = WndWindow::GetTime();
 
-		Fireblast::Renderer2D::s_Renderer->Onstart();
+		Fireblast::Renderer2D::s_Renderer->Start();
 
 		// Update loop
 		while (m_IsRunning) {
@@ -48,7 +48,7 @@ namespace Fireblast {
 			Fireblast::Renderer2D::s_Renderer->BeginSubmit();
 			OnUpdate();
 			Fireblast::SceneManager::Get()->GetActiveScene()->Update(); // TODO create manager to manage scenes
-			Fireblast::Renderer2D::s_Renderer->OnUpdate(); // TODO Create manager to manage renderers api's
+			Fireblast::Renderer2D::s_Renderer->Update(); // TODO Create manager to manage renderers api's
 
 			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
@@ -57,7 +57,7 @@ namespace Fireblast {
 			// Draw to screen
 			OnDraw();
 			Fireblast::Renderer2D::s_Renderer->EndSubmit();
-			Fireblast::Renderer2D::s_Renderer->OnDraw();
+			Fireblast::Renderer2D::s_Renderer->Draw();
 
 			// Window event handling
 			m_WindowInstance->SwapBuffers();

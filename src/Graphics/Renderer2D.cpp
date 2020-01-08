@@ -40,7 +40,7 @@ namespace Fireblast
 		m_Vbo->ReleasePointer();
 	}
 	
-	void Fireblast::Renderer2D::Onstart()
+	void Fireblast::Renderer2D::Start()
 	{
 		InitBuffers();
 
@@ -54,7 +54,7 @@ namespace Fireblast
 
 	}
 
-	void Fireblast::Renderer2D::OnUpdate()
+	void Fireblast::Renderer2D::Update()
 	{
 		std::vector<Entity*>& m_Entities = SceneManager::Get()->GetActiveScene()->GetEntities();
 
@@ -107,7 +107,7 @@ namespace Fireblast
 		//m_Entities.push_back(entity);
 	}
 
-	void Fireblast::Renderer2D::OnDraw()
+	void Fireblast::Renderer2D::Draw()
 	{
 		RenderAPI::GetApi()->SetBlend(true);
 
