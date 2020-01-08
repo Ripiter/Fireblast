@@ -10,7 +10,7 @@
 - [ ] Particle System.
 - [ ] 2d & 3d Sounds system.
 - [ ] Sprite Component.
-- [ ] System Manager.
+- [x] System Manager. -- In Progress
 - [ ] Mesh Component.
 - [ ] Physics Capabilities.
 - [ ] Support CPU / D3D / Vulkan Api.

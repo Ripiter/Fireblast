@@ -6,7 +6,6 @@
 namespace Fireblast 
 {
 	Vertex2D* m_BufferPointer;
-	std::shared_ptr<Renderer2D> Fireblast::Renderer2D::s_Renderer = std::make_shared<Renderer2D>();
 
 
 	void Fireblast::Renderer2D::InitBuffers()
@@ -28,18 +27,7 @@ namespace Fireblast
 		m_Vao->SetIndexBuffer(m_Ibo);
 	}
 
-	void Fireblast::Renderer2D::BeginSubmit()
-	{
-		m_BufferPointer = (Vertex2D*)m_Vbo->GetPointer();
-		m_VerticeAmount = 0;
-	}
-
-	void Fireblast::Renderer2D::EndSubmit()
-	{
-		m_Vbo->ReleasePointer();
-	}
-	
-	void Fireblast::Renderer2D::Start()
+	void Renderer2D::OnStart()
 	{
 		InitBuffers();
 
@@ -50,10 +38,9 @@ namespace Fireblast
 		);
 
 		FileUtils::FlipImages(true);
-
 	}
 
-	void Fireblast::Renderer2D::Update()
+	void Renderer2D::OnUpdate()
 	{
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
 
@@ -92,6 +79,28 @@ namespace Fireblast
 		}
 	}
 
+	void Renderer2D::OnDraw()
+	{
+		RenderAPI::GetApi()->SetBlend(true);
+
+		m_FlatShader->Bind();
+
+		m_Ibo->Bind();
+		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
+	}
+
+	void Fireblast::Renderer2D::BeginSubmit()
+	{
+		m_BufferPointer = (Vertex2D*)m_Vbo->GetPointer();
+		m_VerticeAmount = 0;
+	}
+
+	void Fireblast::Renderer2D::EndSubmit()
+	{
+		m_Vbo->ReleasePointer();
+	}
+	
+
 
 	void Fireblast::Renderer2D::SubmitVertice(const Vertex2D& vertice)
 	{
@@ -106,13 +115,4 @@ namespace Fireblast
 		//m_Entities.push_back(entity);
 	}
 
-	void Fireblast::Renderer2D::Draw()
-	{
-		RenderAPI::GetApi()->SetBlend(true);
-
-		m_FlatShader->Bind();
-		
-		m_Ibo->Bind();
-		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
-	}
 }

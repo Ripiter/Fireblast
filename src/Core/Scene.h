@@ -7,7 +7,6 @@
 
 namespace Fireblast
 {
-
 	class Scene
 	{
 		friend class SceneManager;

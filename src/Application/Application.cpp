@@ -3,7 +3,6 @@
 #include "Core/Core.h"
 #include "Graphics/Api/RenderAPI.h"
 #include "Graphics/Renderer2D.h"
-#include "Core/SceneManager.h"
 #include "Core/SManager.h"
 
 namespace Fireblast {
@@ -17,7 +16,6 @@ namespace Fireblast {
 	{
 		// Start
 		Log::Init();
-		OnStart();
 
 		// Create window
 		m_IsRunning = m_WindowInstance->Init();
@@ -32,12 +30,10 @@ namespace Fireblast {
 		RenderAPI::Create(RenderVendor::Opengl); // TODO: Let the user decide
 		FB_CORE_ASSERT(RenderAPI::GetApi()->Init(), "Render Api failed to init!");
 		SManager::Get()->Start();
-		OnAfterStart();
+		OnStart();
 
 		float t1, t2;
 		t1 = t2 = WndWindow::GetTime();
-
-		Fireblast::Renderer2D::s_Renderer->Start();
 		
 		// Update loop
 		while (m_IsRunning) {
@@ -47,11 +43,10 @@ namespace Fireblast {
 			Time::SetDeltaTime(t2 - t1);
 			t1 = t2;
 
-			Fireblast::Renderer2D::s_Renderer->BeginSubmit();
+			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->BeginSubmit(); // TODO: FIX
 			OnUpdate();
-			//Fireblast::SceneManager::Get()->GetActiveScene()->Update();
 			SManager::Get()->Update();
-			Fireblast::Renderer2D::s_Renderer->Update(); // TODO Create manager to manage renderers api's
+			//Fireblast::Renderer2D::s_Renderer->Update(); // TODO Create manager to manage renderers api's
 
 			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
@@ -59,8 +54,10 @@ namespace Fireblast {
 
 			// Draw to screen
 			OnDraw();
-			Fireblast::Renderer2D::s_Renderer->EndSubmit();
-			Fireblast::Renderer2D::s_Renderer->Draw();
+			//Fireblast::Renderer2D::s_Renderer->EndSubmit(); // TODO FIX
+			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->EndSubmit(); // TODO: FIX
+			SManager::Get()->Draw();
+			//Fireblast::Renderer2D::s_Renderer->Draw();
 
 			// Window event handling
 			m_WindowInstance->SwapBuffers();

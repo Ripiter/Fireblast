@@ -56,15 +56,10 @@ class Game : public Fireblast::Application {
 
 	virtual void OnStart() override
 	{
-
-	}
-
-	virtual void OnAfterStart() override {
 		Fireblast::FileUtils::FlipImages(true);
 
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->CreateScene("Level", new Level());
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->LoadScene("Level");
-
 	}
 
 	virtual void OnUpdate() override

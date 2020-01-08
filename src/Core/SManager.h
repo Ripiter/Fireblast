@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Manager.h"
 #include "Core/SceneManager.h"
+#include "Core/SystemManager.h"
 #include <vector>
 #include <memory>
 
@@ -51,6 +52,7 @@ namespace Fireblast
 		{
 			// Add systems
 			AddManager(new SceneManager());
+			AddManager(new SystemManager());
 
 			for (unsigned int i = 0; i < m_Managers.size(); i++)
 			{
