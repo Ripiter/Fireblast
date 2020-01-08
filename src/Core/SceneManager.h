@@ -1,16 +1,13 @@
 #pragma once
 #include "Core/Scene.h"
+#include "Core/Manager.h"
 #include <vector>
 #include <unordered_map>
 
 namespace Fireblast
 {
-	class SceneManager
+	class SceneManager : public Manager
 	{
-	private:
-		static std::shared_ptr<SceneManager> s_Instance;
-	public:
-		static std::shared_ptr<SceneManager>& Get() { return s_Instance; };
 	private:
 		Scene* m_ActiveScene;
 		std::unordered_map<std::string, Scene*> m_Scenes;
@@ -19,5 +16,9 @@ namespace Fireblast
 		void LoadScene(const std::string& name);
 	public:
 		Scene* GetActiveScene() const { return m_ActiveScene; }
+
+		virtual void OnStart() override;
+		virtual void OnUpdate() override;
+		virtual void OnDraw() override;
 	};
 }

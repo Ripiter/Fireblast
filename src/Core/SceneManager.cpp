@@ -4,7 +4,6 @@
 
 namespace Fireblast
 {
-	std::shared_ptr<SceneManager> SceneManager::s_Instance = std::make_shared<SceneManager>();
 
 	void SceneManager::CreateScene(const std::string& name, Scene* scene)
 	{
@@ -24,5 +23,23 @@ namespace Fireblast
 		m_ActiveScene = _pair->second;
 		m_ActiveScene->Start();
 		FB_CORE_INFO("Loaded Scene {0}", name);
+	}
+
+	void SceneManager::OnStart()
+	{
+	}
+
+	void SceneManager::OnUpdate()
+	{
+		if (!m_ActiveScene)
+			return;
+
+		m_ActiveScene->Update();
+
+	}
+
+
+	void SceneManager::OnDraw()
+	{
 	}
 }

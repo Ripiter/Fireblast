@@ -4,6 +4,7 @@
 #include "Graphics/Api/RenderAPI.h"
 #include "Graphics/Renderer2D.h"
 #include "Core/SceneManager.h"
+#include "Core/SManager.h"
 
 namespace Fireblast {
 
@@ -30,13 +31,14 @@ namespace Fireblast {
 		// init render API
 		RenderAPI::Create(RenderVendor::Opengl); // TODO: Let the user decide
 		FB_CORE_ASSERT(RenderAPI::GetApi()->Init(), "Render Api failed to init!");
+		SManager::Get()->Start();
 		OnAfterStart();
 
 		float t1, t2;
 		t1 = t2 = WndWindow::GetTime();
 
 		Fireblast::Renderer2D::s_Renderer->Start();
-
+		
 		// Update loop
 		while (m_IsRunning) {
 
@@ -47,7 +49,8 @@ namespace Fireblast {
 
 			Fireblast::Renderer2D::s_Renderer->BeginSubmit();
 			OnUpdate();
-			Fireblast::SceneManager::Get()->GetActiveScene()->Update(); // TODO create manager to manage scenes
+			//Fireblast::SceneManager::Get()->GetActiveScene()->Update();
+			SManager::Get()->Update();
 			Fireblast::Renderer2D::s_Renderer->Update(); // TODO Create manager to manage renderers api's
 
 			// Clear

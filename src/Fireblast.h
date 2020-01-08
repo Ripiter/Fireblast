@@ -4,7 +4,7 @@
 #include "Core/Core.h"
 
 // Managers
-#include "Core/SceneManager.h"
+#include "Core/SManager.h"
 
 // Application
 #include "Application/Application.h"
