@@ -3,7 +3,7 @@
 #include "Core/Core.h"
 #include "Graphics/Api/RenderAPI.h"
 #include "Graphics/Renderer2D.h"
-#include "Core/Scene.h"
+#include "Core/SceneManager.h"
 
 namespace Fireblast {
 
@@ -47,7 +47,7 @@ namespace Fireblast {
 
 			Fireblast::Renderer2D::s_Renderer->BeginSubmit();
 			OnUpdate();
-			Fireblast::Scene::GetCurrentScene()->Update(); // TODO create manager to manage scenes
+			Fireblast::SceneManager::Get()->GetActiveScene()->Update(); // TODO create manager to manage scenes
 			Fireblast::Renderer2D::s_Renderer->OnUpdate(); // TODO Create manager to manage renderers api's
 
 			// Clear

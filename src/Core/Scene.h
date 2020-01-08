@@ -10,18 +10,16 @@ namespace Fireblast
 
 	class Scene
 	{
-		friend class Renderer2D;
+		friend class SceneManager;
 		friend class Application;
-
 	private:
 		std::vector<Entity*> m_Entities;
-		static std::shared_ptr<Scene> s_currentScene;
+
+	public:
+		std::vector<Entity*>& GetEntities() { return m_Entities; }
 	public:
 		Scene();
 		virtual ~Scene();
-
-		static void LoadScene(std::shared_ptr<Scene> scene);
-		inline static std::shared_ptr<Scene>& GetCurrentScene() { return s_currentScene; }
 	protected:
 		void SpawnEntity(Entity* entity);
 		void SpawnEntity(Entity* entity, glm::vec3 pos);

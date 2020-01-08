@@ -4,7 +4,6 @@
 
 namespace Fireblast
 {
-	std::shared_ptr<Scene> Scene::s_currentScene(nullptr);
 
 	Scene::Scene()
 		: m_Entities() {}
@@ -13,11 +12,6 @@ namespace Fireblast
 	{
 	}
 
-	void Scene::LoadScene(std::shared_ptr<Scene> scene)
-	{
-		Scene::s_currentScene = scene;
-		Scene::s_currentScene->Start();
-	}
 
 	void Scene::SpawnEntity(Entity* entity)
 	{

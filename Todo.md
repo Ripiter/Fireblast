@@ -1,7 +1,6 @@
 # Todo release 0.1
 ## Engine
 - [ ] Add Texture packer/Manager.
-- [ ] Add Scene manager.
 - [ ] Add Graphics manager.
 - [ ] Add UI Restrictions.
 - [ ] Create Entity / Component restrictions.
@@ -43,3 +42,4 @@
 - [x] Simple 2d Renderer.
 - [x] Simple Entity / Component system.
 - [x] Simple Transformation for the graphics, when it is rendered.
+- [x] Add Scene manager.

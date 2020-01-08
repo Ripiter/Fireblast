@@ -1,6 +1,6 @@
 #include "fbpch.h"
 #include "Renderer2D.h"
-#include "Core/Scene.h"
+#include "Core/SceneManager.h"
 #include <Entity\Component\SpriteComponent.h>
 #include <Entity\Component\Transform.h>
 
@@ -56,7 +56,7 @@ namespace Fireblast
 
 	void Fireblast::Renderer2D::OnUpdate()
 	{
-		std::vector<Entity*>& m_Entities = Fireblast::Scene::GetCurrentScene()->m_Entities;
+		std::vector<Entity*>& m_Entities = SceneManager::Get()->GetActiveScene()->GetEntities();
 
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{

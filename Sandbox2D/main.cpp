@@ -23,7 +23,7 @@ protected:
 
 	virtual void OnUpdate() override
 	{
-		transform->Rotate({ 0, 0, 0.1f });
+		transform->Rotate({ 0, 0, 0.01f });
 	}
 };
 
@@ -61,7 +61,9 @@ class Game : public Fireblast::Application {
 
 	virtual void OnAfterStart() override {
 		Fireblast::FileUtils::FlipImages(true);
-		Fireblast::Scene::LoadScene(std::make_shared<Level>());
+		
+		Fireblast::SceneManager::Get()->CreateScene("Level", new Level());
+		Fireblast::SceneManager::Get()->LoadScene("Level");
 	}
 
 	virtual void OnUpdate() override

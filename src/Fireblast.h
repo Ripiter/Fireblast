@@ -2,7 +2,9 @@
 
 // Core
 #include "Core/Core.h"
-#include "Core/Scene.h"
+
+// Managers
+#include "Core/SceneManager.h"
 
 // Application
 #include "Application/Application.h"
