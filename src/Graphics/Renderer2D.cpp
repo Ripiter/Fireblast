@@ -51,10 +51,16 @@ namespace Fireblast
 
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{
+			if (!m_Entities[i]->GetEnabled())
+				continue;
+
 			auto* transform = m_Entities[i]->GetComponent<Transform>();
 
 			auto* it = m_Entities[i]->GetComponent<SpriteComponent>();
 			if (!it)
+				continue;
+
+			if (!it->GetEnabled())
 				continue;
 
 			glm::mat4 modelMat = transform->GetTransformMatrix();
@@ -80,7 +86,6 @@ namespace Fireblast
 			m_BufferPointer++;
 
 			m_VerticeAmount += 6;
-
 		}
 	}
 

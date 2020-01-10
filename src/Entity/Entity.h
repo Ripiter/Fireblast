@@ -11,6 +11,7 @@ namespace Fireblast
 
 	private:
 		unsigned int m_Id;
+		bool m_Enabled;
 		std::vector<Component*> m_Components;
 
 	private:
@@ -24,6 +25,9 @@ namespace Fireblast
 		virtual ~Entity();
 	public:
 		void AddComponent(Component* component);
+
+		inline const bool GetEnabled() const { return m_Enabled; }
+		inline void SetEnabled(const bool enabled) { m_Enabled = enabled; }
 		
 		template<typename T>
 		T* GetComponent() 

@@ -5,7 +5,7 @@
 namespace Fireblast
 {
 	Entity::Entity()
-		: m_Id(0), m_Components()
+		: m_Id(0), m_Components(), m_Enabled(true)
 	{
 		AddComponent(new Transform());
 	}
