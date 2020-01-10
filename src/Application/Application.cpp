@@ -23,12 +23,13 @@ namespace Fireblast {
 		FB_CORE_INFO("Created window [{0}x{1}] '{2}'", m_WindowInstance->GetWidth(), m_WindowInstance->GetHeight(), m_WindowInstance->GetTitle());
 		m_WindowInstance->SetEventHandler(std::bind(&Application::OnApplicationEvent, this, std::placeholders::_1)); // bind to eventhandler
 		Input::SetWindow(m_WindowInstance->GetWindowHandle());
-
 		m_WindowInstance->MakeCurrent();
 
 		// init render API
 		RenderAPI::Create(RenderVendor::Opengl); // TODO: Let the user decide
 		FB_CORE_ASSERT(RenderAPI::GetApi()->Init(), "Render Api failed to init!");
+
+		// Start systems
 		SManager::Get()->Start();
 		OnStart();
 
@@ -43,10 +44,10 @@ namespace Fireblast {
 			Time::SetDeltaTime(t2 - t1);
 			t1 = t2;
 
-			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->BeginSubmit(); // TODO: FIX
+			// TODO: Fix the reference so that it will not try and grab it everytime
+			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->BeginSubmit();
 			OnUpdate();
 			SManager::Get()->Update();
-			//Fireblast::Renderer2D::s_Renderer->Update(); // TODO Create manager to manage renderers api's
 
 			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
@@ -54,10 +55,10 @@ namespace Fireblast {
 
 			// Draw to screen
 			OnDraw();
-			//Fireblast::Renderer2D::s_Renderer->EndSubmit(); // TODO FIX
-			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->EndSubmit(); // TODO: FIX
+
+			// TODO: Fix the reference so that it will not try and grab it everytime
+			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->EndSubmit();
 			SManager::Get()->Draw();
-			//Fireblast::Renderer2D::s_Renderer->Draw();
 
 			// Window event handling
 			m_WindowInstance->SwapBuffers();

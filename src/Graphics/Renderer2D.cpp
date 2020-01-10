@@ -85,6 +85,11 @@ namespace Fireblast
 
 		m_FlatShader->Bind();
 
+		// Get camera & upload to shader
+		OrthographicCamera* _camera = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetOrthographicCamera();
+		glm::mat4 cameraModel = _camera->GetViewProjection();
+		m_FlatShader->SetMat4("projView", cameraModel);
+
 		m_Ibo->Bind();
 		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
 	}
@@ -100,8 +105,6 @@ namespace Fireblast
 		m_Vbo->ReleasePointer();
 	}
 	
-
-
 	void Fireblast::Renderer2D::SubmitVertice(const Vertex2D& vertice)
 	{
 		m_BufferPointer->Vertice = vertice.Vertice;

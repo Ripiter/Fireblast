@@ -10,14 +10,15 @@
 - [ ] Particle System.
 - [ ] 2d & 3d Sounds system.
 - [ ] Sprite Component.
-- [x] System Manager. -- In Progress
 - [ ] Mesh Component.
 - [ ] Physics Capabilities.
-- [ ] Support CPU / D3D / Vulkan Api.
+- [ ] Support CPU Renderering.
+- [ ] Support D3D Rendering.
+- [ ] Support Vulkan Rendering.
 - [ ] Render Lightning.
 - [ ] Support texture mapping for 3d renderer.
 - [ ] Font Rendering.
-- [ ] Collision detection.
+- [ ] Collision System.
 - [ ] Raycasting.
 - [ ] C# CLI.
 - [ ] Shader custom language.
@@ -25,6 +26,7 @@
 - [ ] Raytracing.
 - [ ] Create universal load / unloading language.
 - [ ] A animation system, with blending of keyframes.
+- [ ] Perspective Camera.
 
 ## Editor
 - [ ] Create debug windows.
@@ -36,6 +38,8 @@
 
 
 ## Done
+- [x] Orthographic Camera
+- [x] System Manager.
 - [x] Debugger Window.
 - [x] Window Event system.
 - [x] Simple Opengl / Abstract Api System.

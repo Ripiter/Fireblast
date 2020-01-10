@@ -6,10 +6,13 @@ namespace Fireblast
 {
 
 	Scene::Scene()
-		: m_Entities() {}
+		: m_Entities(), m_OrthoCamera(new OrthographicCamera(0.f, 0.f, 16.f, 16.f))
+	{
+	}
 
 	Scene::~Scene()
 	{
+		delete m_OrthoCamera;
 	}
 
 

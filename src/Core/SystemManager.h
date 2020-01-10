@@ -21,7 +21,7 @@ namespace Fireblast
 		inline T* GetSystem() { return (T*)GetInternalSystem<T>(); }
 	private:	
 		template<typename T>
-		inline const T* GetInternalSystem() const // TODO: make it so it can detect sub classes or super classes
+		inline const T* GetInternalSystem() const
 		{
 				for (auto* it : m_Systems)
 				{
@@ -32,8 +32,6 @@ namespace Fireblast
 				return nullptr;
 		}
 	protected:
-		// Inherited via Manager
-
 		inline virtual void OnStart() override 
 		{
 			Add(new Renderer2D());

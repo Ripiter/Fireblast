@@ -85,7 +85,6 @@ namespace Fireblast {
 		glfwSetWindowCloseCallback(m_WindowHandle, [](GLFWwindow* wnd) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(wnd);
 
-
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
@@ -100,7 +99,6 @@ namespace Fireblast {
 		glfwSetKeyCallback(m_WindowHandle, [](GLFWwindow* wnd, int key, int scancode, int action, int mods){
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(wnd);
 			
-
 			switch (action)
 			{
 				case 1: // press

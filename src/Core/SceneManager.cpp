@@ -35,7 +35,6 @@ namespace Fireblast
 			return;
 
 		m_ActiveScene->Update();
-
 	}
 
 

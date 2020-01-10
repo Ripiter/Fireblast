@@ -17,7 +17,7 @@ protected:
 	// Inherited via Entity
 	virtual void OnStart() override
 	{
-		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 0.5f, 0.5f }, texture));
+		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 2.f, 2.f }, texture));
 		transform = GetComponent<Fireblast::Transform>();
 	}
 
@@ -35,7 +35,7 @@ class Level : public Fireblast::Scene
 	virtual void OnStart() override
 	{
 		textu = Fireblast::RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png");
-		SpawnEntity(new SimpleEntity(textu));
+		SpawnEntity(new SimpleEntity(textu), {5, 5, -1.f});
 		SpawnEntity(new SimpleEntity(textu), { 0.5f, -0.5f, 1.f});
 		SpawnEntity(new SimpleEntity(textu), { 0.5f, 0.5f, 1.f});
 		//SpawnEntity(new SimpleEntity(), { -0.5f, 0.f, 1.f});

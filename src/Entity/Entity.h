@@ -43,7 +43,10 @@ namespace Fireblast
 		std::vector<Component*>::const_iterator end() const { return m_Components.end(); }
 
 	private:
-		// TODO: make it so it can detect sub classes or super classes
+		// TODO: The current function can only detect the current class
+		// and doesn't take into account if the class has inheritance.
+		// Maybe create it so that it can look past that with special
+		// parameters
 		template<typename T>
 		const T* GetComponentInternal() const
 		{
