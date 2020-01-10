@@ -35,10 +35,9 @@ class Level : public Fireblast::Scene
 	virtual void OnStart() override
 	{
 		textu = Fireblast::RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png");
-		SpawnEntity(new SimpleEntity(textu), {5, 5, -1.f});
-		SpawnEntity(new SimpleEntity(textu), { 0.5f, -0.5f, 1.f});
-		SpawnEntity(new SimpleEntity(textu), { 0.5f, 0.5f, 1.f});
-		//SpawnEntity(new SimpleEntity(), { -0.5f, 0.f, 1.f});
+		SpawnEntity(new SimpleEntity(textu), {2, 2, 1.f});
+		SpawnEntity(new SimpleEntity(textu), { 7.5f, 7.5f, 1.f});
+		SpawnEntity(new SimpleEntity(textu), { 14.f, 14.f, 1.f});
 
 	}
 

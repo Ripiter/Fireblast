@@ -37,6 +37,8 @@ namespace Fireblast
 
 		virtual void OnDraw() override;
 
+		virtual void OnBeforeUpdate() override;
+
 	};
 
 }

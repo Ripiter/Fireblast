@@ -44,8 +44,7 @@ namespace Fireblast {
 			Time::SetDeltaTime(t2 - t1);
 			t1 = t2;
 
-			// TODO: Fix the reference so that it will not try and grab it everytime
-			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->BeginSubmit();
+			SManager::Get()->BeforeUpdate();
 			OnUpdate();
 			SManager::Get()->Update();
 
@@ -56,8 +55,6 @@ namespace Fireblast {
 			// Draw to screen
 			OnDraw();
 
-			// TODO: Fix the reference so that it will not try and grab it everytime
-			SManager::Get()->GetManager<SystemManager>()->GetSystem<Renderer2D>()->EndSubmit();
 			SManager::Get()->Draw();
 
 			// Window event handling

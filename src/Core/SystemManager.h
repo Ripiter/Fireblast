@@ -42,6 +42,14 @@ namespace Fireblast
 			}
 		};
 
+		inline virtual void OnBeforeUpdate() override
+		{
+			for (unsigned int i = 0; i < m_Systems.size(); i++)
+			{
+				m_Systems[i]->BeforeUpdate();
+			}
+		};
+
 		inline virtual void OnUpdate() override 
 		{
 			for (unsigned int i = 0; i < m_Systems.size(); i++)

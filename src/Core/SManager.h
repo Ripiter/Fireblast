@@ -60,6 +60,14 @@ namespace Fireblast
 			}
 		};
 
+		inline void BeforeUpdate()
+		{
+			for (unsigned int i = 0; i < m_Managers.size(); i++)
+			{
+				m_Managers[i]->BeforeUpdate();
+			}
+		}
+
 		inline void Update() 
 		{
 			for (unsigned int i = 0; i < m_Managers.size(); i++)

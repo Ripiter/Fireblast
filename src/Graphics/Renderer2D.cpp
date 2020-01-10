@@ -40,6 +40,11 @@ namespace Fireblast
 		FileUtils::FlipImages(true);
 	}
 
+	void Renderer2D::OnBeforeUpdate()
+	{
+		BeginSubmit();
+	}
+
 	void Renderer2D::OnUpdate()
 	{
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
@@ -81,6 +86,8 @@ namespace Fireblast
 
 	void Renderer2D::OnDraw()
 	{
+		EndSubmit();
+
 		RenderAPI::GetApi()->SetBlend(true);
 
 		m_FlatShader->Bind();

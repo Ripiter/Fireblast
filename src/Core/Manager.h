@@ -8,10 +8,12 @@ namespace Fireblast
 
 	private:
 		inline void Start() { OnStart(); }
+		inline void BeforeUpdate() { OnBeforeUpdate(); }
 		inline void Update() { OnUpdate(); }
 		inline void Draw() { OnDraw(); }
 	protected:
 		virtual void OnStart() = 0;
+		virtual void OnBeforeUpdate() {};
 		virtual void OnUpdate() = 0;
 		virtual void OnDraw() = 0;
 	};
