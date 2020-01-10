@@ -24,9 +24,6 @@ namespace Fireblast
 		void BeginSubmit();
 		void EndSubmit();
 
-		void SubmitEntity(Entity* entity);
-		
-		void SubmitVertice(const Vertex2D& vertice);
 	private:
 		void InitBuffers();
 

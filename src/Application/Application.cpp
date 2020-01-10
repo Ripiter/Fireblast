@@ -26,7 +26,11 @@ namespace Fireblast {
 		m_WindowInstance->MakeCurrent();
 
 		// init render API
-		RenderAPI::Create(RenderVendor::Opengl); // TODO: Let the user decide
+		// TODO: Let the user decide what api to use
+		// It could maybe be constructed in the application
+		// as a virtual function which can be overriden
+		// if the user wants to change api at the start
+		RenderAPI::Create(RenderVendor::Opengl);
 		FB_CORE_ASSERT(RenderAPI::GetApi()->Init(), "Render Api failed to init!");
 
 		// Start systems

@@ -12,6 +12,9 @@ namespace Fireblast
 		Scene* m_ActiveScene;
 		std::unordered_map<std::string, Scene*> m_Scenes;
 	public:
+		SceneManager();
+		~SceneManager();
+
 		void CreateScene(const std::string& name, Scene* scene);
 		void LoadScene(const std::string& name);
 	public:

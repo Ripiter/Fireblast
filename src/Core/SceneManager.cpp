@@ -4,6 +4,19 @@
 
 namespace Fireblast
 {
+	SceneManager::SceneManager()
+		: m_ActiveScene(nullptr), m_Scenes()
+	{
+
+	}
+
+	SceneManager::~SceneManager()
+	{
+		for (auto element : m_Scenes)
+		{
+			delete element.second;
+		}
+	}
 
 	void SceneManager::CreateScene(const std::string& name, Scene* scene)
 	{

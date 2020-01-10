@@ -2,6 +2,7 @@
 #include "Core/Manager.h"
 #include "Core/SceneManager.h"
 #include "Core/SystemManager.h"
+#include "Core/ResourceManager.h"
 #include <vector>
 #include <memory>
 
@@ -51,6 +52,7 @@ namespace Fireblast
 		inline void Start() 
 		{
 			// Add systems
+			AddManager(new ResourceManager());
 			AddManager(new SceneManager());
 			AddManager(new SystemManager());
 

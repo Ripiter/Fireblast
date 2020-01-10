@@ -5,9 +5,14 @@
 
 namespace Fireblast
 {
+	// TODO: Recreate SpriteComponent.
+	// Nothing makes sense in it anymore
+	// Both the data its holding, 
+	// but also how it's created.
+	// GLOBAL: Maybe make it so systems can see components attributes
 	class SpriteComponent : public Component
 	{
-	public: // TODO: Make it so end user cannot see these
+	public:
 		Vertex2D m_Vertices[4];
 		Texture* m_Texture;
 		

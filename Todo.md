@@ -4,8 +4,8 @@
 - [ ] Add Graphics manager.
 - [ ] Add UI Restrictions.
 - [ ] Create Entity / Component restrictions.
-- [ ] Create Resource manager..
-- [ ] 2D BatchRenderer.
+- [x] Create Resource manager. -- In Progress
+- [x] 2D BatchRenderer. -- In Progress
 - [ ] 3D BatchRenderer.
 - [ ] Particle System.
 - [ ] 2d & 3d Sounds system.

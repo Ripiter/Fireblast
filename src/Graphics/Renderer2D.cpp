@@ -7,7 +7,6 @@ namespace Fireblast
 {
 	Vertex2D* m_BufferPointer;
 
-
 	void Fireblast::Renderer2D::InitBuffers()
 	{
 		m_Vao = RenderAPI::GetApi()->CreateVertexArray();
@@ -31,12 +30,16 @@ namespace Fireblast
 	{
 		InitBuffers();
 
+		// TODO: Let resourcemanager create the shaders and hold em
+		// Then let the renderer2d load default shaders, and let user
+		// change em if they want to.
 		m_FlatShader = Fireblast::RenderAPI::GetApi()->CreateShader
 		(
 			std::string("C:/repos/Fireblast/src/vFlatShader.txt"),
 			std::string("C:/repos/Fireblast/src/fFlatShader.txt")
 		);
 
+		// TODO: Move this to global location where it makes sense to set flag
 		FileUtils::FlipImages(true);
 	}
 
@@ -45,26 +48,36 @@ namespace Fireblast
 		BeginSubmit();
 	}
 
+	// TODO: Find a way to submit different primitives from their components
+	// And batch them all together.
+	// Right now the only component which is being submitted and drawn is
+	// The sprite component / quad
 	void Renderer2D::OnUpdate()
 	{
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
 
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{
+			// Is Entity enabled
 			if (!m_Entities[i]->GetEnabled())
 				continue;
 
+			// Get transform component
 			auto* transform = m_Entities[i]->GetComponent<Transform>();
 
+			// Get sprite component
 			auto* it = m_Entities[i]->GetComponent<SpriteComponent>();
 			if (!it)
 				continue;
 
+			// Check if enabled
 			if (!it->GetEnabled())
 				continue;
 
+			// Get model matrix
 			glm::mat4 modelMat = transform->GetTransformMatrix();
 
+			// Begin submiting data to vbo
 			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[0].Vertice.x, it->m_Vertices[0].Vertice.y, it->m_Vertices[0].Vertice.z, 1.0f);
 			m_BufferPointer->Color = it->m_Vertices[0].Color;
 			m_BufferPointer->Uv = it->m_Vertices[0].Uv;
@@ -85,6 +98,7 @@ namespace Fireblast
 			m_BufferPointer->Uv = it->m_Vertices[3].Uv;
 			m_BufferPointer++;
 
+			// Increase vertices that have to be drawed
 			m_VerticeAmount += 6;
 		}
 	}
@@ -93,6 +107,7 @@ namespace Fireblast
 	{
 		EndSubmit();
 
+		// Set blend status
 		RenderAPI::GetApi()->SetBlend(true);
 
 		m_FlatShader->Bind();
@@ -102,6 +117,7 @@ namespace Fireblast
 		glm::mat4 cameraModel = _camera->GetViewProjection();
 		m_FlatShader->SetMat4("projView", cameraModel);
 
+		// Draw as indicies
 		m_Ibo->Bind();
 		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
 	}
@@ -117,17 +133,5 @@ namespace Fireblast
 		m_Vbo->ReleasePointer();
 	}
 	
-	void Fireblast::Renderer2D::SubmitVertice(const Vertex2D& vertice)
-	{
-		m_BufferPointer->Vertice = vertice.Vertice;
-		m_BufferPointer->Color = vertice.Color;
-		m_BufferPointer->Uv = vertice.Uv;
-		m_BufferPointer++;
-	}
-
-	void Renderer2D::SubmitEntity(Entity* entity)
-	{
-		//m_Entities.push_back(entity);
-	}
 
 }
