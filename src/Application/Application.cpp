@@ -81,6 +81,6 @@ namespace Fireblast {
 
 	Application::~Application() 
 	{
-
+		delete m_WindowInstance;
 	}
 };

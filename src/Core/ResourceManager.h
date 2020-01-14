@@ -18,6 +18,8 @@ namespace Fireblast
 
 		void LoadTexture(const std::string name, const std::string path);
 		void LoadShader(const std::string name, const std::string vertexPath, const std::string fragmentPath);
+
+		Texture* GetTexture(const std::string name) const;
 	protected:
 		virtual void OnStart() override;
 		virtual void OnUpdate() override;

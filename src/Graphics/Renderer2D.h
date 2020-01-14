@@ -26,6 +26,9 @@ namespace Fireblast
 
 	private:
 		void InitBuffers();
+		bool IsEntitySubmitable(const Entity* entity);
+		void SubmitEntity(const Entity* entity);
+		void UploadUniformsToShader();
 
 	protected:
 		virtual void OnStart() override;

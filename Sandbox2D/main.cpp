@@ -5,25 +5,24 @@
 class SimpleEntity : public Fireblast::Entity
 {
 private:
-	Fireblast::Texture* texture;
-	Fireblast::Transform* transform;
+	std::string m_TextureName;
+	Fireblast::Transform* m_Transform;
 public:
-	SimpleEntity(Fireblast::Texture* text) : Entity(), texture(nullptr), transform(nullptr)
+	SimpleEntity(std::string textureName) : Entity(), m_TextureName(textureName), m_Transform(nullptr)
 	{
-		texture = text;
 	}
 
 protected:
 	// Inherited via Entity
 	virtual void OnStart() override
 	{
-		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 2.f, 2.f }, texture));
-		transform = GetComponent<Fireblast::Transform>();
+		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 2.f, 2.f }, m_TextureName));
+		m_Transform = GetComponent<Fireblast::Transform>();
 	}
 
 	virtual void OnUpdate() override
 	{
-		transform->Rotate({ 0, 0, 0.01f });
+		m_Transform->Rotate({ 0, 0, 0.01f });
 	}
 };
 
@@ -34,10 +33,9 @@ class Level : public Fireblast::Scene
 	// Inherited via Scene
 	virtual void OnStart() override
 	{
-		textu = Fireblast::RenderAPI::GetApi()->CreateTexture("C:/Users/eadr/Desktop/Fish.png");
-		SpawnEntity(new SimpleEntity(textu), {2, 2, 1.f});
-		SpawnEntity(new SimpleEntity(textu), { 7.5f, 7.5f, 1.f});
-		SpawnEntity(new SimpleEntity(textu), { 14.f, 14.f, 1.f});
+		SpawnEntity(new SimpleEntity("FishTexture"), {2, 2, 1.f});
+		SpawnEntity(new SimpleEntity("FishTexture"), { 7.5f, 7.5f, 1.f});
+		SpawnEntity(new SimpleEntity("FishTexture"), { 14.f, 14.f, 1.f});
 
 	}
 
@@ -56,9 +54,11 @@ class Game : public Fireblast::Application {
 	virtual void OnStart() override
 	{
 		Fireblast::FileUtils::FlipImages(true);
+		Fireblast::SManager::Get()->GetManager<Fireblast::ResourceManager>()->LoadTexture("FishTexture", "C:/Users/eadr/Desktop/Fish.png");
 
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->CreateScene("Level", new Level());
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->LoadScene("Level");
+
 	}
 
 	virtual void OnUpdate() override

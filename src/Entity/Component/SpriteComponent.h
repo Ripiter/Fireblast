@@ -14,11 +14,11 @@ namespace Fireblast
 	{
 	public:
 		Vertex2D m_Vertices[4];
-		Texture* m_Texture;
+		std::string m_TextureName;
 		
 	public:
-		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, Texture* texture)
-			: m_Vertices(), m_Texture(texture)
+		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, std::string textureName)
+			: m_Vertices(), m_TextureName(textureName)
 		{
 			glm::vec4 color = glm::vec4(1, 1, 1, 1);
 
@@ -42,7 +42,6 @@ namespace Fireblast
 		virtual ~SpriteComponent() 
 		{
 			delete m_Vertices;
-			delete m_Texture;
 		}
 	};
 }

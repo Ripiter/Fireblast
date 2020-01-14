@@ -25,6 +25,16 @@ namespace Fireblast
 			FB_CORE_ERROR("Could not load texture, name already exists!");
 	}
 
+	Texture* ResourceManager::GetTexture(const std::string name) const
+	{
+		auto& _pair = m_Textures.find(name);
+
+		if (_pair->second)
+			return _pair->second;
+		else
+			return nullptr;
+	}
+
 	// TODO: Change this when the shader will be custom.
 	void ResourceManager::LoadShader(const std::string name, const std::string vertexPath, const std::string fragmentPath)
 	{

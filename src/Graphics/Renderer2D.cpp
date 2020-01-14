@@ -19,7 +19,8 @@ namespace Fireblast
 		m_Vbo->SetLayout({
 			{0, 3, Fireblast::ShaderType::Float, false},
 			{1, 4, Fireblast::ShaderType::Float, false},
-			{2, 2, Fireblast::ShaderType::Float, false}
+			{2, 2, Fireblast::ShaderType::Float, false},
+			{3, 1, Fireblast::ShaderType::Int, false}
 		});
 		
 		m_Vao->SetVertexBuffer(m_Vbo);
@@ -55,51 +56,12 @@ namespace Fireblast
 	void Renderer2D::OnUpdate()
 	{
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
-
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{
-			// Is Entity enabled
-			if (!m_Entities[i]->GetEnabled())
+			if (!IsEntitySubmitable(m_Entities[i]))
 				continue;
 
-			// Get transform component
-			auto* transform = m_Entities[i]->GetComponent<Transform>();
-
-			// Get sprite component
-			auto* it = m_Entities[i]->GetComponent<SpriteComponent>();
-			if (!it)
-				continue;
-
-			// Check if enabled
-			if (!it->GetEnabled())
-				continue;
-
-			// Get model matrix
-			glm::mat4 modelMat = transform->GetTransformMatrix();
-
-			// Begin submiting data to vbo
-			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[0].Vertice.x, it->m_Vertices[0].Vertice.y, it->m_Vertices[0].Vertice.z, 1.0f);
-			m_BufferPointer->Color = it->m_Vertices[0].Color;
-			m_BufferPointer->Uv = it->m_Vertices[0].Uv;
-			m_BufferPointer++;
-
-			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[1].Vertice.x, it->m_Vertices[1].Vertice.y, it->m_Vertices[1].Vertice.z, 1.0f);
-			m_BufferPointer->Color = it->m_Vertices[1].Color;
-			m_BufferPointer->Uv = it->m_Vertices[1].Uv;
-			m_BufferPointer++;
-
-			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[2].Vertice.x, it->m_Vertices[2].Vertice.y, it->m_Vertices[2].Vertice.z, 1.0f);
-			m_BufferPointer->Color = it->m_Vertices[2].Color;
-			m_BufferPointer->Uv = it->m_Vertices[2].Uv;
-			m_BufferPointer++;
-
-			m_BufferPointer->Vertice = modelMat * glm::vec4(it->m_Vertices[3].Vertice.x, it->m_Vertices[3].Vertice.y, it->m_Vertices[3].Vertice.z, 1.0f);
-			m_BufferPointer->Color = it->m_Vertices[3].Color;
-			m_BufferPointer->Uv = it->m_Vertices[3].Uv;
-			m_BufferPointer++;
-
-			// Increase vertices that have to be drawed
-			m_VerticeAmount += 6;
+			SubmitEntity(m_Entities[i]);
 		}
 	}
 
@@ -107,20 +69,48 @@ namespace Fireblast
 	{
 		EndSubmit();
 
-		// Set blend status
 		RenderAPI::GetApi()->SetBlend(true);
 
 		m_FlatShader->Bind();
-
-		// Get camera & upload to shader
-		OrthographicCamera* _camera = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetOrthographicCamera();
-		glm::mat4 cameraModel = _camera->GetViewProjection();
-		m_FlatShader->SetMat4("projView", cameraModel);
-
-		// Draw as indicies
+		UploadUniformsToShader();
+		
 		m_Ibo->Bind();
 		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
 	}
+
+	bool Renderer2D::IsEntitySubmitable(const Entity* entity)
+	{
+		if (!entity->GetEnabled())						return false;
+		if (!entity->GetComponent<Transform>())			return false;
+		if (!entity->GetComponent<SpriteComponent>())	return false;
+
+		return true;
+	}
+
+	void Renderer2D::SubmitEntity(const Entity* entity)
+	{
+		const SpriteComponent* spriteComponent	= entity->GetComponent<SpriteComponent>();
+		const glm::mat4 modelMat				= entity->GetComponent<Transform>()->GetTransformMatrix();
+
+		const unsigned int _EntityVerticesAmount = 4;
+		for (unsigned int i = 0; i < _EntityVerticesAmount; i++)
+		{
+			m_BufferPointer->Vertice	= modelMat * glm::vec4(spriteComponent->m_Vertices[i].Vertice.x, spriteComponent->m_Vertices[i].Vertice.y, spriteComponent->m_Vertices[i].Vertice.z, 1.0f);
+			m_BufferPointer->Color		= spriteComponent->m_Vertices[i].Color;
+			m_BufferPointer->Uv			= spriteComponent->m_Vertices[i].Uv;
+			m_BufferPointer->TextureID	= 0;
+			m_BufferPointer++;
+		}
+
+		m_VerticeAmount += 6;
+	}
+
+	void Renderer2D::UploadUniformsToShader()
+	{
+		glm::mat4 _cameraModel = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetOrthographicCamera()->GetViewProjection();
+		m_FlatShader->SetMat4("projView", _cameraModel);
+	}
+
 
 	void Fireblast::Renderer2D::BeginSubmit()
 	{
@@ -132,6 +122,4 @@ namespace Fireblast
 	{
 		m_Vbo->ReleasePointer();
 	}
-	
-
 }
