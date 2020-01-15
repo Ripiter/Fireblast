@@ -13,6 +13,18 @@
 
 namespace Fireblast {
 	namespace OpenGL {
+
+		void OpenGLMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+		{
+			switch (severity)
+			{
+			case GL_DEBUG_SEVERITY_HIGH:         FB_CORE_CRITICAL(message); return;
+			case GL_DEBUG_SEVERITY_MEDIUM:       FB_CORE_ERROR(message); return;
+			case GL_DEBUG_SEVERITY_LOW:          FB_CORE_WARN(message); return;
+			case GL_DEBUG_SEVERITY_NOTIFICATION: FB_CORE_TRACE(message); return;
+			}
+		}
+
 		bool GLRenderCommands::Init()
 		{
 			// Load all opengl functions
@@ -25,9 +37,15 @@ namespace Fireblast {
 			FB_CORE_INFO("Vendor: [{0}]", glGetString(GL_VENDOR));
 			FB_CORE_INFO("Renderer: [{0}]", glGetString(GL_RENDERER));
 
+#if FB_DEBUG
+			glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+#endif
+
 			return true;
 		}
-
 
 		void GLRenderCommands::SetViewport(int _width, int _height)
 		{
@@ -42,11 +60,6 @@ namespace Fireblast {
 		void GLRenderCommands::ClearColor(float r, float g, float b, float a)
 		{
 			glClearColor(r, g, b, a);
-		}
-
-		void GLRenderCommands::GetRendererErrors()
-		{
-			FB_ASSERT(glGetError() == GL_NO_ERROR, "Opengl error: " + glGetError());
 		}
 
 		void GLRenderCommands::SetBlend(bool _enable)

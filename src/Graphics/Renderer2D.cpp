@@ -3,9 +3,12 @@
 #include "Entity/Component/Components.h"
 #include "Core/SManager.h"
 
+#include <unordered_map>
+
 namespace Fireblast 
 {
 	Vertex2D* m_BufferPointer;
+	std::unordered_map<std::string, float> textureBatch;
 
 	void Fireblast::Renderer2D::InitBuffers()
 	{
@@ -20,7 +23,7 @@ namespace Fireblast
 			{0, 3, Fireblast::ShaderType::Float, false},
 			{1, 4, Fireblast::ShaderType::Float, false},
 			{2, 2, Fireblast::ShaderType::Float, false},
-			{3, 1, Fireblast::ShaderType::Int, false}
+			{3, 1, Fireblast::ShaderType::Float, false}
 		});
 		
 		m_Vao->SetVertexBuffer(m_Vbo);
@@ -53,15 +56,18 @@ namespace Fireblast
 	// And batch them all together.
 	// Right now the only component which is being submitted and drawn is
 	// The sprite component / quad
+	// TODO: Make better texture slot batcher
 	void Renderer2D::OnUpdate()
 	{
+		textureBatch.clear();
+		int _CurrentTextureSlotIterator = 0;
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
 		for (unsigned int i = 0; i < m_Entities.size(); i++)
 		{
 			if (!IsEntitySubmitable(m_Entities[i]))
 				continue;
 
-			SubmitEntity(m_Entities[i]);
+			SubmitEntity(m_Entities[i], &_CurrentTextureSlotIterator);
 		}
 	}
 
@@ -72,6 +78,7 @@ namespace Fireblast
 		RenderAPI::GetApi()->SetBlend(true);
 
 		m_FlatShader->Bind();
+		BatchTexturesForSlots();
 		UploadUniformsToShader();
 		
 		m_Ibo->Bind();
@@ -87,10 +94,20 @@ namespace Fireblast
 		return true;
 	}
 
-	void Renderer2D::SubmitEntity(const Entity* entity)
+	void Renderer2D::SubmitEntity(const Entity* entity, int* textureSlotIterator)
 	{
 		const SpriteComponent* spriteComponent	= entity->GetComponent<SpriteComponent>();
 		const glm::mat4 modelMat				= entity->GetComponent<Transform>()->GetTransformMatrix();
+
+		// HACK: maybe move this into it's own function for texture batching
+		float _TextureSlot = 0;
+		if (textureBatch.insert({ spriteComponent->m_TextureName, *textureSlotIterator }).second)
+		{
+			_TextureSlot = *textureSlotIterator;
+			(*textureSlotIterator)++;
+		}
+		else
+			_TextureSlot = textureBatch.find(spriteComponent->m_TextureName)->second;
 
 		const unsigned int _EntityVerticesAmount = 4;
 		for (unsigned int i = 0; i < _EntityVerticesAmount; i++)
@@ -98,11 +115,21 @@ namespace Fireblast
 			m_BufferPointer->Vertice	= modelMat * glm::vec4(spriteComponent->m_Vertices[i].Vertice.x, spriteComponent->m_Vertices[i].Vertice.y, spriteComponent->m_Vertices[i].Vertice.z, 1.0f);
 			m_BufferPointer->Color		= spriteComponent->m_Vertices[i].Color;
 			m_BufferPointer->Uv			= spriteComponent->m_Vertices[i].Uv;
-			m_BufferPointer->TextureID	= 0;
+			m_BufferPointer->TextureID	= _TextureSlot;
 			m_BufferPointer++;
 		}
 
 		m_VerticeAmount += 6;
+	}
+
+	void Renderer2D::BatchTexturesForSlots()
+	{
+		for ( auto& it : textureBatch )
+		{
+			Texture* _currentTexture = SManager::Get()->GetManager<ResourceManager>()->GetTexture(it.first);
+			_currentTexture->ActivateTexture(it.second);
+			m_FlatShader->SetInt(std::string("textures[") + std::to_string((int)it.second) + "]", it.second);
+		}
 	}
 
 	void Renderer2D::UploadUniformsToShader()

@@ -7,22 +7,22 @@ namespace Fireblast { namespace OpenGL {
 
 	GLTexture::GLTexture()
 	{
-		glGenTextures(1, &m_Id);
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_Id);
 	}
 
 	void GLTexture::ActivateTexture(const unsigned int slot)
 	{
-		glActiveTexture(GL_TEXTURE0 + slot);
+		glBindTextureUnit(slot, m_Id);
 	}
 
 	void GLTexture::SetData(const unsigned char* data, const unsigned int width, const unsigned int height)
 	{
+		glTextureStorage2D(m_Id, 1, GL_RGBA8, width, height);
 		SetFiltering();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
+		glTextureSubImage2D(m_Id, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	}
 
-	void GLTexture::SetFiltering() 
+	void GLTexture::SetFiltering()
 	{
 		glTextureParameteri(m_Id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_Id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

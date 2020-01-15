@@ -24,7 +24,10 @@ namespace Fireblast {
 
 		const int Fireblast::OpenGL::GLShader::GetUniformLocation(const char* name)
 		{
-			return glGetUniformLocation(m_Id, name);
+			int _locationId = glGetUniformLocation(m_Id, name);
+			if (_locationId == -1)
+				FB_CORE_WARN("Couldn't find the uniform {0}", name);
+			return _locationId;
 		}
 
 		unsigned int Fireblast::OpenGL::GLShader::Compile()

@@ -18,8 +18,6 @@ namespace Fireblast {
 
 			virtual void ClearColor(float r, float g, float b, float a) override;
 
-			virtual void GetRendererErrors() override;
-
 			virtual void SetBlend(bool _enable) override;
 
 			virtual VertexArray* CreateVertexArray() override;

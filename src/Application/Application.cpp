@@ -14,10 +14,8 @@ namespace Fireblast {
 
 	void Application::Run()
 	{
-		// Start
 		Log::Init();
 
-		// Create window
 		m_IsRunning = m_WindowInstance->Init();
 		FB_CORE_ASSERT(m_IsRunning, "Couldn't Create Window");
 		FB_CORE_INFO("Created window [{0}x{1}] '{2}'", m_WindowInstance->GetWidth(), m_WindowInstance->GetHeight(), m_WindowInstance->GetTitle());
@@ -33,17 +31,14 @@ namespace Fireblast {
 		RenderAPI::Create(RenderVendor::Opengl);
 		FB_CORE_ASSERT(RenderAPI::GetApi()->Init(), "Render Api failed to init!");
 
-		// Start systems
 		SManager::Get()->Start();
 		OnStart();
 
 		float t1, t2;
 		t1 = t2 = WndWindow::GetTime();
 		
-		// Update loop
 		while (m_IsRunning) {
 
-			// Calculate delta time
 			t2 = WndWindow::GetTime();
 			Time::SetDeltaTime(t2 - t1);
 			t1 = t2;
@@ -52,22 +47,16 @@ namespace Fireblast {
 			OnUpdate();
 			SManager::Get()->Update();
 
-			// Clear
 			RenderAPI::GetApi()->ClearColor(0.f, 0.f, 1.f, 1.f);
 			RenderAPI::GetApi()->Clear();
 
-			// Draw to screen
 			OnDraw();
 
 			SManager::Get()->Draw();
 
-			// Window event handling
 			m_WindowInstance->SwapBuffers();
 			WndWindow::PollWindowEvents();
 			m_IsRunning = m_WindowInstance->IsWindowAlive();
-
-			// Check for render api errors
-			RenderAPI::GetApi()->GetRendererErrors();
 		}
 
 		// Shutdown

@@ -27,7 +27,8 @@ namespace Fireblast
 	private:
 		void InitBuffers();
 		bool IsEntitySubmitable(const Entity* entity);
-		void SubmitEntity(const Entity* entity);
+		void SubmitEntity(const Entity* entity, int* textureSlotIterator);
+		void BatchTexturesForSlots();
 		void UploadUniformsToShader();
 
 	protected:

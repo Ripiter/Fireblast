@@ -2,12 +2,14 @@
 
 in vec4 outColor;
 in vec2 outUv;
+in float outTextureId;
 
 out vec4 FragColor;
 
-uniform sampler2D text;
+uniform sampler2D[32] textures;
 
 void main()
 {
-	FragColor = texture(text, outUv) * outColor;
+	int tid = int(outTextureId);
+	FragColor = texture(textures[tid], outUv) * outColor;
 }
