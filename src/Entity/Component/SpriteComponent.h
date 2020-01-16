@@ -5,22 +5,16 @@
 
 namespace Fireblast
 {
-	// TODO: Recreate SpriteComponent.
-	// Nothing makes sense in it anymore
-	// Both the data its holding, 
-	// but also how it's created.
-	// GLOBAL: Maybe make it so systems can see components attributes
 	class SpriteComponent : public Component
 	{
-	public:
-		Vertex2D m_Vertices[4];
+	private:
+		Vertex2D* m_Vertices;
 		std::string m_TextureName;
-		
 	public:
-		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, std::string textureName)
-			: m_Vertices(), m_TextureName(textureName)
+		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, std::string textureName, glm::vec4 color)
+			: m_Vertices(nullptr), m_TextureName(textureName)
 		{
-			glm::vec4 color = glm::vec4(1, 1, 1, 1);
+			m_Vertices = new Vertex2D[4];
 
 			m_Vertices[0].Vertice = glm::vec3(centerPos.x - size.x / 2, centerPos.y + size.y / 2, centerPos.z);
 			m_Vertices[0].Color = color;
@@ -39,9 +33,16 @@ namespace Fireblast
 			m_Vertices[3].Uv = glm::vec2(0, 0);
 		}
 
-		virtual ~SpriteComponent() 
-		{
-			delete m_Vertices;
-		}
+		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, std::string textureName)
+			: SpriteComponent(centerPos, size, textureName, { 1.f, 1.f, 1.f, 1.f }) {}
+
+		SpriteComponent(glm::vec3 centerPos, glm::vec2 size, glm::vec4 color)
+			: SpriteComponent(centerPos, size, "", color) {}
+
+		virtual ~SpriteComponent() { delete[] m_Vertices; }
+
+	public:
+		const Vertex2D* GetVertices() const { return m_Vertices; }
+		const std::string& GetTextureName() const { return m_TextureName; }
 	};
 }

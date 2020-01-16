@@ -15,7 +15,6 @@ namespace Fireblast {
 			virtual void SetViewport(int _width, int _height) override;
 
 			virtual void Clear() override;
-
 			virtual void ClearColor(float r, float g, float b, float a) override;
 
 			virtual void SetBlend(bool _enable) override;

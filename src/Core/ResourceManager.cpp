@@ -25,9 +25,25 @@ namespace Fireblast
 			FB_CORE_ERROR("Could not load texture, name already exists!");
 	}
 
+	void ResourceManager::LoadTexture(const std::string name, int width, int height, void* data)
+	{
+		if (!m_Textures.insert({ name, RenderAPI::GetApi()->CreateTexture(data, width, height) }).second)
+			FB_CORE_ERROR("Could not load texture, name already exists!");
+	}
+
 	Texture* ResourceManager::GetTexture(const std::string name) const
 	{
 		auto& _pair = m_Textures.find(name);
+
+		if (_pair->second)
+			return _pair->second;
+		else
+			return nullptr;
+	}
+
+	const Shader* ResourceManager::GetShader(const std::string name) const
+	{
+		auto& _pair = m_Shaders.find(name);
 
 		if (_pair->second)
 			return _pair->second;

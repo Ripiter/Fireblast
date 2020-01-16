@@ -101,20 +101,21 @@ namespace Fireblast
 
 		// HACK: maybe move this into it's own function for texture batching
 		float _TextureSlot = 0;
-		if (textureBatch.insert({ spriteComponent->m_TextureName, *textureSlotIterator }).second)
+		if (textureBatch.insert({ spriteComponent->GetTextureName(), *textureSlotIterator }).second)
 		{
 			_TextureSlot = *textureSlotIterator;
 			(*textureSlotIterator)++;
 		}
 		else
-			_TextureSlot = textureBatch.find(spriteComponent->m_TextureName)->second;
+			_TextureSlot = textureBatch.find(spriteComponent->GetTextureName())->second;
 
 		const unsigned int _EntityVerticesAmount = 4;
+		const Vertex2D* vertices = spriteComponent->GetVertices();
 		for (unsigned int i = 0; i < _EntityVerticesAmount; i++)
 		{
-			m_BufferPointer->Vertice	= modelMat * glm::vec4(spriteComponent->m_Vertices[i].Vertice.x, spriteComponent->m_Vertices[i].Vertice.y, spriteComponent->m_Vertices[i].Vertice.z, 1.0f);
-			m_BufferPointer->Color		= spriteComponent->m_Vertices[i].Color;
-			m_BufferPointer->Uv			= spriteComponent->m_Vertices[i].Uv;
+			m_BufferPointer->Vertice	= modelMat * glm::vec4(vertices[i].Vertice.x, vertices[i].Vertice.y, vertices[i].Vertice.z, 1.0f);
+			m_BufferPointer->Color		= vertices[i].Color;
+			m_BufferPointer->Uv			= vertices[i].Uv;
 			m_BufferPointer->TextureID	= _TextureSlot;
 			m_BufferPointer++;
 		}
