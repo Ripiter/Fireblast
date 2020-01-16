@@ -34,14 +34,7 @@ namespace Fireblast
 	{
 		InitBuffers();
 
-		// TODO: Let resourcemanager create the shaders and hold em
-		// Then let the renderer2d load default shaders, and let user
-		// change em if they want to.
-		m_FlatShader = Fireblast::RenderAPI::GetApi()->CreateShader
-		(
-			std::string("C:/repos/Fireblast/src/vFlatShader.txt"),
-			std::string("C:/repos/Fireblast/src/fFlatShader.txt")
-		);
+		m_FlatShader = SManager::Get()->GetManager<ResourceManager>()->GetShader("Default2DShader");
 
 		// TODO: Move this to global location where it makes sense to set flag
 		FileUtils::FlipImages(true);

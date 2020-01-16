@@ -10,7 +10,6 @@
 - [ ] 3D BatchRenderer.
 - [ ] Particle System.
 - [ ] 2d & 3d Sounds system.
-- [ ] Sprite Component.
 - [ ] Mesh Component.
 - [ ] Physics Capabilities.
 - [ ] Support CPU Renderering.
@@ -39,6 +38,7 @@
 
 
 ## Done
+- [x] Sprite Component.
 - [x] Orthographic Camera
 - [x] System Manager.
 - [x] Debugger Window.

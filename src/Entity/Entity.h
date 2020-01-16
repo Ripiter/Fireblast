@@ -23,7 +23,7 @@ namespace Fireblast
 	public:
 		Entity();
 		virtual ~Entity();
-	public:
+
 		void AddComponent(Component* component);
 
 		inline const bool GetEnabled() const { return m_Enabled; }

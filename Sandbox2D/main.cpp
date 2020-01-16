@@ -15,7 +15,7 @@ public:
 protected:
 	virtual void OnStart() override
 	{
-		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 2.f, 2.f }, m_TextureName));
+		AddComponent(new Fireblast::SpriteComponent({ 0, 0, 0 }, { 2.f, 2.f }, m_TextureName, {1.f, 0.f, 0.f, 1.f}));
 		m_Transform = GetComponent<Fireblast::Transform>();
 	}
 
@@ -27,14 +27,11 @@ protected:
 
 class Level : public Fireblast::Scene
 {
-	Fireblast::Texture* textu;
-
-	// Inherited via Scene
 	virtual void OnStart() override
 	{
-		SpawnEntity(new SimpleEntity("FishTexture"), {2, 2, 1.f});
-		SpawnEntity(new SimpleEntity("DuckTexture"), { 7.5f, 7.5f, 1.f});
-		SpawnEntity(new SimpleEntity("FishTexture"), { 14.f, 14.f, 1.f});
+		SpawnEntity(new SimpleEntity("DefaultTexture"), {2, 2, 1.f});
+		SpawnEntity(new SimpleEntity("FishTexture"), { 7.5f, 7.5f, 1.f});
+		SpawnEntity(new SimpleEntity("DefaultTexture"), { 14.f, 14.f, 1.f});
 
 	}
 

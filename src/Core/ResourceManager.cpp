@@ -41,7 +41,7 @@ namespace Fireblast
 			return nullptr;
 	}
 
-	const Shader* ResourceManager::GetShader(const std::string name) const
+	Shader* ResourceManager::GetShader(const std::string name) const
 	{
 		auto& _pair = m_Shaders.find(name);
 
@@ -58,8 +58,63 @@ namespace Fireblast
 			FB_CORE_ERROR("Could not load shader, name already exists!");
 	}
 
+	void ResourceManager::LoadShader(const std::string& name, const char* vertexSource, const char* fragmentSource)
+	{
+		if (!m_Shaders.insert({ name, RenderAPI::GetApi()->CreateShader(vertexSource, fragmentSource) }).second)
+			FB_CORE_ERROR("Could not load shader, name already exists!");
+	}
+
+	void ResourceManager::LoadDefaultResources()
+	{
+		uint32_t whiteTexture = 0xffffffff;
+		LoadTexture("DefaultTexture", 1, 1, &whiteTexture);
+
+		const char* default2DVertexSource =
+			"#version 330 core\n"
+			"layout(location = 0) in vec3 pos;\n"
+			"layout(location = 1) in vec4 color;\n"
+			"layout(location = 2) in vec2 Uv;\n"
+			"layout(location = 3) in float TextureId;\n"
+
+			"out vec4 outColor;\n"
+			"out vec2 outUv;\n"
+			"out float outTextureId;\n"
+
+			"uniform mat4 projView;\n"
+
+			"void main()\n"
+			"{\n"
+			"gl_Position = projView * vec4(pos, 1.0);\n"
+			"outColor = color;\n"
+			"outUv = Uv;\n"
+			"outTextureId = TextureId;\n"
+			"}\n";
+
+		const char* default2DFragmentSource =
+			"#version 330 core\n"
+
+			"in vec4 outColor;\n"
+			"in vec2 outUv;\n"
+			"in float outTextureId;\n"
+
+			"out vec4 FragColor;\n"
+
+			"uniform sampler2D[32] textures;\n"
+
+			"void main()\n"
+			"{\n"
+			"int tid = int(outTextureId);\n"
+			"FragColor = texture(textures[tid], outUv) * outColor;\n"
+			"}\n";
+
+		LoadShader("Default2DShader", default2DVertexSource, default2DFragmentSource);
+	}
+
+
 	void ResourceManager::OnStart()
 	{
+		LoadDefaultResources();
+
 	}
 
 	void ResourceManager::OnUpdate()
