@@ -2,6 +2,7 @@
 #include "Renderer2D.h"
 #include "Entity/Component/Components.h"
 #include "Core/SManager.h"
+#include "Utils/Performance.h"
 
 #include <unordered_map>
 
@@ -12,6 +13,8 @@ namespace Fireblast
 
 	void Fireblast::Renderer2D::InitBuffers()
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		m_Vao = RenderAPI::GetApi()->CreateVertexArray();
 		m_Vbo = RenderAPI::GetApi()->CreateVertexBuffer(m_VertexBufferSize);
 		m_Ibo = RenderAPI::GetApi()->CreateIndexBuffer(m_VertexBufferSize * 6);
@@ -32,12 +35,15 @@ namespace Fireblast
 
 	void Renderer2D::OnStart()
 	{
-		InitBuffers();
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
 
+		InitBuffers();
 		m_FlatShader = SManager::Get()->GetManager<ResourceManager>()->GetShader("Default2DShader");
 
 		// TODO: Move this to global location where it makes sense to set flag
 		FileUtils::FlipImages(true);
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Renderer2D::OnBeforeUpdate()
@@ -49,9 +55,10 @@ namespace Fireblast
 	// And batch them all together.
 	// Right now the only component which is being submitted and drawn is
 	// The sprite component / quad
-	// TODO: Make better texture slot batcher
 	void Renderer2D::OnUpdate()
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		textureBatch.clear();
 		int _CurrentTextureSlotIterator = 0;
 		std::vector<Entity*>& m_Entities = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetEntities();
@@ -62,10 +69,14 @@ namespace Fireblast
 
 			SubmitEntity(m_Entities[i], &_CurrentTextureSlotIterator);
 		}
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Renderer2D::OnDraw()
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		EndSubmit();
 
 		RenderAPI::GetApi()->SetBlend(true);
@@ -76,6 +87,8 @@ namespace Fireblast
 		
 		m_Ibo->Bind();
 		m_Vao->DrawIndicies(Fireblast::RenderPrimitives::Triangles, m_VerticeAmount);
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	bool Renderer2D::IsEntitySubmitable(const Entity* entity)
@@ -89,6 +102,8 @@ namespace Fireblast
 
 	void Renderer2D::SubmitEntity(const Entity* entity, int* textureSlotIterator)
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		const SpriteComponent* spriteComponent	= entity->GetComponent<SpriteComponent>();
 		const glm::mat4 modelMat				= entity->GetComponent<Transform>()->GetTransformMatrix();
 
@@ -102,8 +117,8 @@ namespace Fireblast
 		else
 			_TextureSlot = textureBatch.find(spriteComponent->GetTextureName())->second;
 
-		const unsigned int _EntityVerticesAmount = 4;
-		const Vertex2D* vertices = spriteComponent->GetVertices();
+		const Vertex2D* vertices					= spriteComponent->GetVertices();
+		const unsigned int _EntityVerticesAmount	= 4;
 		for (unsigned int i = 0; i < _EntityVerticesAmount; i++)
 		{
 			m_BufferPointer->Vertice	= modelMat * glm::vec4(vertices[i].Vertice.x, vertices[i].Vertice.y, vertices[i].Vertice.z, 1.0f);
@@ -114,24 +129,33 @@ namespace Fireblast
 		}
 
 		m_VerticeAmount += 6;
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Renderer2D::BatchTexturesForSlots()
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		for ( auto& it : textureBatch )
 		{
 			Texture* _currentTexture = SManager::Get()->GetManager<ResourceManager>()->GetTexture(it.first);
 			_currentTexture->ActivateTexture(it.second);
 			m_FlatShader->SetInt(std::string("textures[") + std::to_string((int)it.second) + "]", it.second);
 		}
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Renderer2D::UploadUniformsToShader()
 	{
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		glm::mat4 _cameraModel = SManager::Get()->GetManager<SceneManager>()->GetActiveScene()->GetOrthographicCamera()->GetViewProjection();
 		m_FlatShader->SetMat4("projView", _cameraModel);
-	}
 
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
+	}
 
 	void Fireblast::Renderer2D::BeginSubmit()
 	{

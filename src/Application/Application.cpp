@@ -14,7 +14,9 @@ namespace Fireblast {
 
 	void Application::Run()
 	{
+
 		Log::Init();
+		FB_PERFORMANCE_STARTSESSION("../log.json");
 
 		m_IsRunning = m_WindowInstance->Init();
 		FB_CORE_ASSERT(m_IsRunning, "Couldn't Create Window");
@@ -58,6 +60,8 @@ namespace Fireblast {
 			WndWindow::PollWindowEvents();
 			m_IsRunning = m_WindowInstance->IsWindowAlive();
 		}
+		
+		FB_PERFORMANCE_ENDSESSION();
 
 		// Shutdown
 		WndWindow::TerminateWindows();

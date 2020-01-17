@@ -5,7 +5,6 @@
 - [ ] Add Graphics manager.
 - [ ] Add UI Restrictions.
 - [ ] Create Entity / Component restrictions.
-- [x] Create Resource manager. -- In Progress
 - [x] 2D BatchRenderer. -- In Progress
 - [ ] 3D BatchRenderer.
 - [ ] Particle System.
@@ -27,17 +26,17 @@
 - [ ] Create universal load / unloading language.
 - [ ] A animation system, with blending of keyframes.
 - [ ] Perspective Camera.
+- [x] Add function time counter, to see performance for the application. -- In Progress
 
 ## Editor
 - [ ] Create debug windows.
 - [ ] Create Texture Helper tools.
 - [ ] Create simple World editor, to move stuff and save it.
 - [ ] Create world generator with noise.
-- [ ] Add function time counter, to see performance.
 - [ ] Add Entity list for current loaded scene.
 
-
 ## Done
+- [x] Create Resource manager.
 - [x] Sprite Component.
 - [x] Orthographic Camera
 - [x] System Manager.

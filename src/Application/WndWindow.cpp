@@ -1,6 +1,8 @@
 #include "fbpch.h"
 #include "WndWindow.h"
 
+#include "Utils/Performance.h"
+
 namespace Fireblast {
 
 	WndWindow::WndWindow() : m_WindowHandle(NULL), m_Data()
@@ -18,6 +20,8 @@ namespace Fireblast {
 	}
 
 	bool WndWindow::Init() {
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
+
 		if (!glfwInit())
 			return false;
 
@@ -31,6 +35,7 @@ namespace Fireblast {
 		glfwSetWindowUserPointer(m_WindowHandle, &m_Data);
 		SetEvents();
 
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 		return true;
 	}
 
@@ -45,12 +50,14 @@ namespace Fireblast {
 	}
 
 	void WndWindow::SetVSync(bool enabled) {
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
 		if (enabled)
 			glfwSwapInterval(1);
 		else
 			glfwSwapInterval(0);
 
 		m_Data.VsyncEnabled = enabled;
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void WndWindow::PollWindowEvents() {
@@ -72,7 +79,7 @@ namespace Fireblast {
 
 	void WndWindow::SetEvents() 
 	{
-
+		FB_PERFORMANCE_START_PROFILEFUNCTION();
 		glfwSetWindowSizeCallback(m_WindowHandle, [](GLFWwindow* wnd, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(wnd);
 			data.Width = width;
@@ -147,6 +154,8 @@ namespace Fireblast {
 				}
 			}
 		});
+
+		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void WndWindow::SetEventHandler(std::function<void(Event&)> eventFunc) {
