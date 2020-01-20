@@ -20,7 +20,7 @@ namespace Fireblast {
 	}
 
 	bool WndWindow::Init() {
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!glfwInit())
 			return false;
@@ -35,7 +35,6 @@ namespace Fireblast {
 		glfwSetWindowUserPointer(m_WindowHandle, &m_Data);
 		SetEvents();
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 		return true;
 	}
 
@@ -46,21 +45,25 @@ namespace Fireblast {
 
 	void WndWindow::SwapBuffers() 
 	{
+		FB_PERFORMANCE_PROFILE();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 
 	void WndWindow::SetVSync(bool enabled) {
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else
 			glfwSwapInterval(0);
 
 		m_Data.VsyncEnabled = enabled;
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void WndWindow::PollWindowEvents() {
+		FB_PERFORMANCE_PROFILE();
+
 		glfwPollEvents();
 	}
 
@@ -79,7 +82,8 @@ namespace Fireblast {
 
 	void WndWindow::SetEvents() 
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
+
 		glfwSetWindowSizeCallback(m_WindowHandle, [](GLFWwindow* wnd, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(wnd);
 			data.Width = width;
@@ -154,8 +158,6 @@ namespace Fireblast {
 				}
 			}
 		});
-
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void WndWindow::SetEventHandler(std::function<void(Event&)> eventFunc) {

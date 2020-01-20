@@ -19,17 +19,16 @@ namespace Fireblast
 
 	void SceneManager::CreateScene(const std::string& name, Scene* scene)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_Scenes.insert({ name, scene }).second)
 			FB_CORE_WARN("{0} Already exists", name);
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void SceneManager::LoadScene(const std::string& name)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		auto& _pair = m_Scenes.find(name);
 		if (!_pair->second)
@@ -42,7 +41,6 @@ namespace Fireblast
 		m_ActiveScene->Start();
 		FB_CORE_INFO("Loaded Scene {0}", name);
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void SceneManager::OnStart()
@@ -51,14 +49,13 @@ namespace Fireblast
 
 	void SceneManager::OnUpdate()
 	{
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_ActiveScene)
 			return;
 
 		m_ActiveScene->Update();
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 

@@ -19,12 +19,11 @@ namespace Fireblast
 
 	void Scene::SpawnEntity(Entity* entity)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		m_Entities.push_back(entity);
 		entity->Start();
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Scene::SpawnEntity(Entity* entity, glm::vec3 pos)
@@ -35,16 +34,15 @@ namespace Fireblast
 
 	void Scene::Start()
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		OnStart();
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void Scene::Update()
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		OnUpdate();
 
@@ -53,7 +51,6 @@ namespace Fireblast
 			m_Entities[i]->Update();
 		}
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 }

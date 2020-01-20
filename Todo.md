@@ -7,6 +7,7 @@
 - [ ] Create Entity / Component restrictions.
 - [x] 2D BatchRenderer. -- In Progress
 - [ ] 3D BatchRenderer.
+- [x] Simple 3D Renderer. -- In Progress.
 - [ ] Particle System.
 - [ ] 2d & 3d Sounds system.
 - [ ] Mesh Component.
@@ -27,6 +28,7 @@
 - [ ] A animation system, with blending of keyframes.
 - [ ] Perspective Camera.
 - [x] Add function time counter, to see performance for the application. -- In Progress
+- [x] Model Loader / Vertice loader. -- In Progress.
 
 ## Editor
 - [ ] Create debug windows.

@@ -23,7 +23,6 @@ namespace Fireblast
 
 		void BeginSubmit();
 		void EndSubmit();
-
 	private:
 		void InitBuffers();
 		bool IsEntitySubmitable(const Entity* entity);
@@ -33,11 +32,8 @@ namespace Fireblast
 
 	protected:
 		virtual void OnStart() override;
-
 		virtual void OnUpdate() override;
-
 		virtual void OnDraw() override;
-
 		virtual void OnBeforeUpdate() override;
 
 	};

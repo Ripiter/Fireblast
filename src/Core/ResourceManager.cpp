@@ -20,27 +20,25 @@ namespace Fireblast
 
 	void ResourceManager::LoadTexture(const std::string name, const std::string path)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_Textures.insert({ name, RenderAPI::GetApi()->CreateTexture(path) }).second)
 			FB_CORE_ERROR("Could not load texture, name already exists!");
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void ResourceManager::LoadTexture(const std::string name, int width, int height, void* data)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_Textures.insert({ name, RenderAPI::GetApi()->CreateTexture(data, width, height) }).second)
 			FB_CORE_ERROR("Could not load texture, name already exists!");
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	Texture* ResourceManager::GetTexture(const std::string name) const
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		auto& _pair = m_Textures.find(name);
 
@@ -49,12 +47,11 @@ namespace Fireblast
 		else
 			return nullptr;
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	Shader* ResourceManager::GetShader(const std::string name) const
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		auto& _pair = m_Shaders.find(name);
 
@@ -63,33 +60,30 @@ namespace Fireblast
 		else
 			return nullptr;
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	// TODO: Change this when the shader will be custom.
 	void ResourceManager::LoadShader(const std::string name, const std::string vertexPath, const std::string fragmentPath)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_Shaders.insert({ name, RenderAPI::GetApi()->CreateShader(vertexPath, fragmentPath) }).second)
 			FB_CORE_ERROR("Could not load shader, name already exists!");
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void ResourceManager::LoadShader(const std::string& name, const char* vertexSource, const char* fragmentSource)
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		if (!m_Shaders.insert({ name, RenderAPI::GetApi()->CreateShader(vertexSource, fragmentSource) }).second)
 			FB_CORE_ERROR("Could not load shader, name already exists!");
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 	void ResourceManager::LoadDefaultResources()
 	{
-		FB_PERFORMANCE_START_PROFILEFUNCTION();
+		FB_PERFORMANCE_PROFILE();
 
 		uint32_t whiteTexture = 0xffffffff;
 		LoadTexture("DefaultTexture", 1, 1, &whiteTexture);
@@ -134,7 +128,6 @@ namespace Fireblast
 
 		LoadShader("Default2DShader", default2DVertexSource, default2DFragmentSource);
 
-		FB_PERFORMANCE_END_PROFILEFUNCTION();
 	}
 
 
