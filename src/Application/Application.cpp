@@ -16,7 +16,7 @@ namespace Fireblast {
 	{
 
 		Log::Init();
-		FB_PERFORMANCE_STARTSESSION("../log.json");
+		FB_PERFORMANCE_STARTSESSION("profile", "../Profile/");
 
 		m_IsRunning = m_WindowInstance->Init();
 		FB_CORE_ASSERT(m_IsRunning, "Couldn't Create Window");

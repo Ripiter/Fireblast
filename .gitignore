@@ -357,4 +357,5 @@ MigrationBackup/
 *.csproj
 *.vcxproj*
 bin-int/
-log*.json*
+profile*.json*
+.Profile/

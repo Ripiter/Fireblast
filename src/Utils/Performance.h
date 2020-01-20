@@ -8,6 +8,7 @@
 #include <string>
 #include <thread>
 #include <sstream>
+#include <Windows.h>
 
 namespace Fireblast { namespace Debug {
 
@@ -28,9 +29,20 @@ namespace Fireblast { namespace Debug {
 		PerformanceWriter() : m_Path(), m_OutPutStream() {};
 		~PerformanceWriter() {};
 	public:
-		inline void OpenFile(char* path)
+		inline void OpenFile(const std::string& filename, std::string& path)
 		{
-			m_Path = path;
+			if (!CreateDirectory((LPCWSTR)path.c_str(), NULL))
+			{
+				mkdir(path.c_str());
+				FB_CORE_INFO("Created Folder {0}", path);
+			}
+
+			std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+			char buf[100] = { 0 };
+			std::strftime(buf, sizeof(buf), "%Y-%m-%d-%H-%M-%S", std::localtime(&now));
+
+			m_Path = std::string(path) + std::string(filename) + buf + std::string(".json");
 
 			m_OutPutStream.open(m_Path);
 			if (m_OutPutStream.is_open())
@@ -116,11 +128,11 @@ namespace Fireblast { namespace Debug {
 }}
 
 #if FB_DEBUG || FB_RELEASE
-	#define FB_PERFORMANCE_STARTSESSION(path)		::Fireblast::Debug::PerformanceWriter::Get().OpenFile(path);
-	#define FB_PERFORMANCE_PROFILE()				::Fireblast::Debug::PerformanceProfile performanceProfile(std::string(FB_GET_FUNCTION_NAME));
-	#define FB_PERFORMANCE_ENDSESSION()				::Fireblast::Debug::PerformanceWriter::Get().CloseFile();
+	#define FB_PERFORMANCE_STARTSESSION(filename, path)		::Fireblast::Debug::PerformanceWriter::Get().OpenFile(std::string(filename), std::string(path));
+	#define FB_PERFORMANCE_PROFILE()						::Fireblast::Debug::PerformanceProfile performanceProfile(std::string(FB_GET_FUNCTION_NAME));
+	#define FB_PERFORMANCE_ENDSESSION()						::Fireblast::Debug::PerformanceWriter::Get().CloseFile();
 #else
-	#define FB_PERFORMANCE_STARTSESSION(path)
+	#define FB_PERFORMANCE_STARTSESSION(filename, path)
 	#define FB_PERFORMANCE_PROFILE()
 	#define FB_PERFORMANCE_ENDSESSION()
 #endif
