@@ -38,7 +38,6 @@ namespace Fireblast { namespace Debug {
 			}
 
 			std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-
 			char buf[100] = { 0 };
 			std::strftime(buf, sizeof(buf), "%Y-%m-%d-%H-%M-%S", std::localtime(&now));
 
@@ -124,7 +123,6 @@ namespace Fireblast { namespace Debug {
 			PerformanceWriter::Get().WriteProfile(*m_Profile);
 		}
 	};
-
 }}
 
 #if FB_DEBUG || FB_RELEASE

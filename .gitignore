@@ -359,3 +359,5 @@ MigrationBackup/
 bin-int/
 profile*.json*
 .Profile/
+
+!/Sandbox2D/Assets/**

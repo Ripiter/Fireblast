@@ -1,6 +1,5 @@
 #include <Fireblast.h>
-#include "Graphics/Api/RenderAPI.h"
-#include "Graphics/Renderer2D.h"
+#include "Utils/ModelLoader.h"
 
 class SimpleEntity : public Fireblast::Entity
 {
@@ -50,12 +49,16 @@ class Game : public Fireblast::Application {
 	virtual void OnStart() override
 	{
 		Fireblast::FileUtils::FlipImages(true);
-		Fireblast::SManager::Get()->GetManager<Fireblast::ResourceManager>()->LoadTexture("FishTexture", "C:/Users/eadr/Desktop/Fish.png");
-		Fireblast::SManager::Get()->GetManager<Fireblast::ResourceManager>()->LoadTexture("DuckTexture", "C:/Users/eadr/Desktop/Duck.jpg");
+		Fireblast::SManager::Get()->GetManager<Fireblast::ResourceManager>()->LoadTexture("FishTexture", "./Assets/Fish.png");
+		Fireblast::SManager::Get()->GetManager<Fireblast::ResourceManager>()->LoadTexture("DuckTexture", "./Assets/Duck.jpg");
 
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->CreateScene("Level", new Level());
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->LoadScene("Level");
 
+		Fireblast::Utils::ObjMeshLoader* obj = new Fireblast::Utils::ObjMeshLoader();
+		obj->LoadFile("./Assets/cube.obj");
+		FB_CORE_INFO(obj->TestMethod());
+		delete obj;
 	}
 
 	virtual void OnUpdate() override

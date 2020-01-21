@@ -37,7 +37,7 @@ namespace Fireblast {
 
 		unsigned char* _dataPtr = stbi_load(path.c_str(), (int*)width, (int*)height, &_c, 4);
 
-		FB_ASSERT(_dataPtr, "Couldn't load image: {0}", path.c_str());
+		FB_ASSERT(_dataPtr, "Couldn't load image: " + path);
 
 		return _dataPtr;
 	}
@@ -45,5 +45,22 @@ namespace Fireblast {
 	void FileUtils::FlipImages(const bool flip)
 	{
 		stbi_set_flip_vertically_on_load(flip);
+	}
+
+	// FIXME: This method can't split the string
+	// and then ignore the delimiter.
+	// It will always insert the delimiter into the vector
+	std::vector<std::string> FileUtils::Split(const std::string& text, char delimiter)
+	{
+		std::vector<std::string> tokens;
+		std::string token;
+		std::istringstream tokenStream(text);
+
+		while (std::getline(tokenStream, token, delimiter))
+		{
+			tokens.push_back(token);
+		}
+
+		return tokens;
 	}
 }

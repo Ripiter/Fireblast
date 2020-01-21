@@ -14,7 +14,6 @@ namespace Fireblast {
 
 	void Application::Run()
 	{
-
 		Log::Init();
 		FB_PERFORMANCE_STARTSESSION("profile", "../Profile/");
 
