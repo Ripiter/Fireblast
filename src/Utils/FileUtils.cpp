@@ -47,18 +47,26 @@ namespace Fireblast {
 		stbi_set_flip_vertically_on_load(flip);
 	}
 
-	// FIXME: This method can't split the string
-	// and then ignore the delimiter.
-	// It will always insert the delimiter into the vector
 	std::vector<std::string> FileUtils::Split(const std::string& text, char delimiter)
 	{
 		std::vector<std::string> tokens;
-		std::string token;
-		std::istringstream tokenStream(text);
 
-		while (std::getline(tokenStream, token, delimiter))
+		if (delimiter == ' ' || delimiter == 0x20)
 		{
-			tokens.push_back(token);
+			std::istringstream buf(text);
+			std::istream_iterator<std::string> beg(buf), end;
+
+			tokens = std::vector<std::string>(beg, end);
+		}
+		else
+		{
+			std::string token;
+			std::istringstream tokenStream(text);
+
+			while (std::getline(tokenStream, token, delimiter))
+			{
+				tokens.push_back(token);
+			}
 		}
 
 		return tokens;
