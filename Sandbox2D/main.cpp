@@ -38,9 +38,6 @@ class Level : public Fireblast::Scene
 	{
 	}
 
-	void Draw()
-	{
-	}
 };
 
 class Game : public Fireblast::Application {
