@@ -12,9 +12,15 @@ namespace Fireblast { namespace Utils {
 	
 	struct MeshFileInfo
 	{
+		std::string Name;
+		std::vector<Vertex3D> Vertices;
+		std::vector<int> Indicies;
 		bool IsTriangilized;
-		Vertex3D* Vertices;
-		int* Indicies;
+
+		MeshFileInfo() : IsTriangilized(false), Vertices(), Indicies() {};
+		~MeshFileInfo() 
+		{
+		}
 	};
 
 	class FileLoader
@@ -80,116 +86,188 @@ namespace Fireblast { namespace Utils {
 	class BaseMeshLoader
 	{
 	private:
-		FileLoader* m_FileLoader;
-		MeshFileInfo* m_MeshInfo;
+		std::string m_TextData;
 	public:
-		BaseMeshLoader()
-			: m_FileLoader(new FileLoader()), m_MeshInfo(new MeshFileInfo()) {}
-		virtual ~BaseMeshLoader() { delete m_FileLoader; delete m_MeshInfo; }
-	protected:
-		virtual const bool IsFileCorrectFileFormat() = 0;
-		virtual void FormatFileData() = 0;
-		
-	protected:
-		const MeshFileInfo* GetMeshInfo() { return m_MeshInfo; }
-		const FileLoader* GetFileLoader() { return m_FileLoader; }
+		BaseMeshLoader() : m_TextData("") {};
+		virtual ~BaseMeshLoader() {};
 
+	protected:
+		const std::string& GetTextData() const { return m_TextData; }
 	public:
-		void LoadFile(const std::string& path)
-		{
-			m_FileLoader->LoadFile(path);
-			m_FileLoader->ReadContent();
-		};
+		virtual MeshFileInfo* ConvertToMeshFileInfo() = 0;
+		void SetTextData(const std::string& data) { m_TextData = data; }
 	};
 
-	class ObjMeshLoader
-		: public BaseMeshLoader
+	class OBJFileLoader : public BaseMeshLoader
 	{
-	private:
-		const char m_Delimiter = 0x20; // space
-
 	public:
-		ObjMeshLoader() 
-			: BaseMeshLoader() {}
+		OBJFileLoader() : BaseMeshLoader() {}
+		virtual ~OBJFileLoader() override = default;
+
 	private:
-		const bool IsLineAComment(const std::string& line) 
+		struct OBJFormat
 		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
+			unsigned int IndiciesPerPrimitive;
+			std::string Name;
 
-			return (tokens[0] == "#");
+			std::vector<float> Vertices;
+			std::vector<float> VerticeNormals;
+			std::vector<float> VerticeTextures;
+			std::vector<int> Indicies;
 		};
 
-		const bool IsLineAVertice(const std::string& line) 
+		OBJFormat* TextToOBJFormat(const std::vector<std::string>& lines) 
 		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens.size() == 4 && tokens[0] == "v");
-		};
-
-		const bool IsLineAVerticeTexture(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens.size() == 4 && tokens[0] == "vt");
-		};
-
-		const bool IsLineAVerticeNormal(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens.size() == 4 && tokens[0] == "vn");
-		};
-
-		const bool IsLineAFace(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens.size() == 5 && tokens[0] == "f");
-		};
-
-		const bool IsLineAGroupName(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens[0] == "g");
-		};
-
-		const bool IsLineAMaterial(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens[0] == "usemtl");
-		};
-
-		const bool IsLineASmoothingGroup(const std::string& line) 
-		{
-			std::vector<std::string> tokens = FileUtils::Split(line, m_Delimiter);
-
-			return (tokens[0] == "s");
-		};
-
-	protected:
-		virtual const bool IsFileCorrectFileFormat() override 
-		{
-			std::vector<std::string> lines = FileUtils::Split(GetFileLoader()->GetContent(), '\n');
+			OBJFormat* data = new OBJFormat();
 
 			for (unsigned int i = 0; i < lines.size(); i++)
 			{
-				std::vector<std::string> lineCommands = FileUtils::Split(lines[i], m_Delimiter);
+				std::vector<std::string>& tokens = FileUtils::Split(lines[i], ' ');
 
-				if (lineCommands.size() != 0)
-					FB_CORE_INFO("command {0} Size {1}", lineCommands[0], lineCommands.size());
+				if (IsLineNullOrWhiteSpace(tokens))
+					continue;
+
+				if (IsLineVerticeLine(tokens))
+				{
+					data->Vertices.push_back((float)::atof(tokens[1].c_str()));
+					data->Vertices.push_back((float)::atof(tokens[2].c_str()));
+					data->Vertices.push_back((float)::atof(tokens[3].c_str()));
+				}
+
+				if (IsLineVerticeNormalLine(tokens))
+				{
+					data->VerticeNormals.push_back((float)::atof(tokens[1].c_str()));
+					data->VerticeNormals.push_back((float)::atof(tokens[2].c_str()));
+					data->VerticeNormals.push_back((float)::atof(tokens[3].c_str()));
+				}
+
+				if (IsLineVerticeTextureLine(tokens))
+				{
+					data->VerticeTextures.push_back((float)::atof(tokens[1].c_str()));
+					data->VerticeTextures.push_back((float)::atof(tokens[2].c_str()));
+				}
+
+				if (IsLineIndicieLine(tokens))
+				{
+					for (unsigned int i = 0; i < tokens.size()-1; i++)
+					{
+						data->IndiciesPerPrimitive = tokens.size() - 1;
+						std::vector<std::string>& faces = FileUtils::Split(tokens[i + 1], '/');
+
+						for (unsigned int q = 0; q < 3; q++)
+						{
+							data->Indicies.push_back(std::stoi(faces[q]));
+						}
+					}
+				}
+
+				if (IsLineNameLine(tokens))
+					data->Name = tokens[1];
+
 			}
 
-			return false;
-		};
+			return data;
+		}
 
-		virtual void FormatFileData() override 
-		{
+		MeshFileInfo* OBJToMeshFormat(const OBJFormat& data) 
+		{ 
+			MeshFileInfo* meshData		= new MeshFileInfo();
+			unsigned int _verticeSize	= data.Indicies.size() / data.IndiciesPerPrimitive;
 			
-		};
+			meshData->IsTriangilized	= (data.IndiciesPerPrimitive == 3) ? true : false;
+			meshData->Name				= data.Name;
+
+			for (unsigned int i = 0; i < data.Indicies.size(); i += data.IndiciesPerPrimitive)
+			{
+				int curVerticePosition			= (data.Indicies[i] - 1) * 3;
+				int curVerticeTexturePosition	= (data.Indicies[i+1] - 1) * 2;
+				int curVerticeNormalPosition	= (data.Indicies[i+2] - 1) * 3;
+
+				glm::vec3 _curVertice(data.Vertices[curVerticePosition], data.Vertices[curVerticePosition + 1], data.Vertices[curVerticePosition + 2]);
+				glm::vec2 _curTextureCoord(data.VerticeTextures[curVerticeTexturePosition], data.VerticeTextures[curVerticeTexturePosition + 1]);
+				glm::vec3 _curNormal(data.VerticeNormals[curVerticeNormalPosition], data.VerticeNormals[curVerticeNormalPosition + 1], data.VerticeNormals[curVerticeNormalPosition + 2]);
+
+				Vertex3D vertex				= Vertex3D();
+				vertex.Vertice				= _curVertice;
+				vertex.TextureCoordination	= _curTextureCoord;
+				vertex.Normal				= _curNormal;
+
+				meshData->Vertices.push_back(vertex);
+			}
+
+			return meshData;
+		}
+
+		const bool IsLineNullOrWhiteSpace(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() == 0 || tokens[0] == " ");
+		}
+
+		const bool IsLineVerticeLine(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() == 4 && tokens[0] == "v");
+		}
+
+		const bool IsLineVerticeNormalLine(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() == 4 && tokens[0] == "vn");
+		}
+
+		const bool IsLineVerticeTextureLine(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() == 3 && tokens[0] == "vt");
+		}
+
+		const bool IsLineIndicieLine(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() >= 4 && tokens[0] == "f");
+		}
+
+		const bool IsLineNameLine(const std::vector<std::string>& tokens)
+		{
+			return (tokens.size() == 2 && tokens[0] == "o");
+		}
 
 	public:
-		bool TestMethod() { return IsFileCorrectFileFormat(); };
+		virtual MeshFileInfo* ConvertToMeshFileInfo() override
+		{
+			const std::string& textData		= GetTextData();
+			std::vector<std::string>& lines	= FileUtils::Split(textData, '\n');
+			OBJFormat* formatData			= TextToOBJFormat(lines);
+			MeshFileInfo* meshData			= OBJToMeshFormat(*formatData);
+
+			delete formatData;
+			return meshData;
+		};
+	};
+
+	class MeshLoader
+	{
+	private:
+		MeshFileInfo* m_MeshInfo;
+		FileLoader* m_FileLoader;
+		BaseMeshLoader* m_BaseMeshLoader;
+	public:
+		MeshLoader() : m_MeshInfo(new MeshFileInfo()), m_FileLoader(new FileLoader()), m_BaseMeshLoader(nullptr) {}
+		~MeshLoader() { delete m_MeshInfo; delete m_FileLoader; delete m_BaseMeshLoader; }
+	private:
+		BaseMeshLoader* GetCorrectMeshLoader()
+		{
+			return new OBJFileLoader();
+		}
+	public:
+		inline bool LoadFile(const std::string& path)
+		{
+			m_FileLoader->LoadFile(path);
+			m_FileLoader->ReadContent();
+
+			m_BaseMeshLoader = GetCorrectMeshLoader();
+			m_BaseMeshLoader->SetTextData(m_FileLoader->GetContent());
+
+			m_MeshInfo = m_BaseMeshLoader->ConvertToMeshFileInfo();
+
+			return true;
+		}
+		const MeshFileInfo* GetMeshData() const { return m_MeshInfo; }
 	};
 }}

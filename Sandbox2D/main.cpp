@@ -55,14 +55,15 @@ class Game : public Fireblast::Application {
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->CreateScene("Level", new Level());
 		Fireblast::SManager::Get()->GetManager<Fireblast::SceneManager>()->LoadScene("Level");
 
-		Fireblast::Utils::ObjMeshLoader* obj = new Fireblast::Utils::ObjMeshLoader();
-		obj->LoadFile("./Assets/cube.obj");
-		FB_CORE_INFO(obj->TestMethod());
-		delete obj;
+		Fireblast::Utils::MeshLoader* loader = new Fireblast::Utils::MeshLoader();
+		loader->LoadFile("./Assets/cube.obj");
+		const Fireblast::Utils::MeshFileInfo* data = loader->GetMeshData();
+		delete loader;
 	}
 
 	virtual void OnUpdate() override
 	{
+		
 	}
 
 	virtual void OnDraw() override
