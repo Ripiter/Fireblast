@@ -9,7 +9,6 @@ namespace Fireblast {
 	class Input {
 	private:
 		static GLFWwindow* s_Window;
-
 	public:
 		inline static bool IsKeyPressed(KeyCodes key) {
 			auto state = glfwGetKey(s_Window, static_cast<int32_t>(key));

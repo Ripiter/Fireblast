@@ -69,6 +69,11 @@ class Level : public Fireblast::Scene
 	{
 		// Update some specific scene code
 	}
+
+	virtual void ~Scene() override
+	{
+		// Delete entities
+	}
 };
 ```
 
@@ -87,6 +92,11 @@ protected:
 	virtual void OnUpdate() override
 	{
 		// update some entity specific code
+	}
+
+	virtual ~Entity() override
+	{
+		// Delete Entity resources
 	}
 };
 ```

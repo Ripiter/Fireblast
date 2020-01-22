@@ -15,6 +15,8 @@ namespace Fireblast
 		{
 			delete element.second;
 		}
+
+		m_Scenes.clear();
 	}
 
 	void SceneManager::CreateScene(const std::string& name, Scene* scene)

@@ -11,6 +11,7 @@ namespace Fireblast {
 			const char* m_FSource;
 		public:
 			GLShader(const char* vertexSource, const char* fragmentSource);
+			virtual ~GLShader() { delete m_VSource, delete m_FSource; }
 		public:
 			virtual void Bind() override;
 			virtual void Delete() override;

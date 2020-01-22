@@ -15,11 +15,11 @@ namespace Fireblast
 		std::vector<Entity*> m_Entities;
 		OrthographicCamera* m_OrthoCamera;
 	public:
-		std::vector<Entity*>& GetEntities() { return m_Entities; }
-		OrthographicCamera* GetOrthographicCamera() const { return m_OrthoCamera; }
-	public:
 		Scene();
 		virtual ~Scene();
+	public:
+		std::vector<Entity*>& GetEntities() { return m_Entities; }
+		OrthographicCamera* GetOrthographicCamera() const { return m_OrthoCamera; }
 	protected:
 		void SpawnEntity(Entity* entity);
 		void SpawnEntity(Entity* entity, glm::vec3 pos);

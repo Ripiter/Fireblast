@@ -17,6 +17,9 @@ namespace Fireblast
 		static std::shared_ptr<SManager> s_Instance;
 	public:
 		static std::shared_ptr<SManager>& Get() { return s_Instance; }
+
+		SManager();
+		virtual ~SManager();
 	public:
 		void AddManager(Manager* manager)
 		{

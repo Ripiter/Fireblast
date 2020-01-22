@@ -16,6 +16,9 @@ namespace Fireblast
 
 		for (auto _ : m_Shaders)
 			delete _.second;
+
+		m_Textures.clear();
+		m_Shaders.clear();
 	}
 
 	void ResourceManager::LoadTexture(const std::string name, const std::string path)

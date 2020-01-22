@@ -11,6 +11,13 @@ namespace Fireblast
 	Vertex2D* m_BufferPointer;
 	std::unordered_map<std::string, float> textureBatch;
 
+	Renderer2D::~Renderer2D()
+	{
+		delete m_Vao;
+		delete m_Vbo;
+		delete m_Ibo;
+	}
+
 	void Fireblast::Renderer2D::InitBuffers()
 	{
 		FB_PERFORMANCE_PROFILE();

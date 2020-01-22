@@ -14,6 +14,11 @@ namespace Fireblast
 	Scene::~Scene()
 	{
 		delete m_OrthoCamera;
+		for (auto p : m_Entities)
+		{
+			delete p;
+		}
+		m_Entities.clear();
 	}
 
 

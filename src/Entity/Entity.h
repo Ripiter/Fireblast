@@ -8,12 +8,13 @@ namespace Fireblast
 	class Entity
 	{
 		friend class Scene;
-
 	private:
 		unsigned int m_Id;
 		bool m_Enabled;
 		std::vector<Component*> m_Components;
-
+	public:
+		Entity();
+		virtual ~Entity();
 	private:
 		void Start();
 		void Update();
@@ -21,9 +22,6 @@ namespace Fireblast
 		virtual void OnStart() = 0;
 		virtual void OnUpdate() = 0;
 	public:
-		Entity();
-		virtual ~Entity();
-
 		void AddComponent(Component* component);
 
 		inline const bool GetEnabled() const { return m_Enabled; }

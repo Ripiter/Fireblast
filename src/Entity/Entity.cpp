@@ -27,11 +27,11 @@ namespace Fireblast
 
 	Entity::~Entity()
 	{
-		// iterate components and delete components
-		for (auto* it : m_Components)
+		for (auto it : m_Components)
 		{
 			delete it;
 		}
+		m_Components.clear();
 	}
 
 

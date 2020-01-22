@@ -10,7 +10,15 @@ namespace Fireblast
 	{
 	private:
 		std::vector<System*> m_Systems;
+	public:
+		SystemManager() {};
+		virtual ~SystemManager() 
+		{
+			for (auto _ : m_Systems)
+				delete _;
 
+			m_Systems.clear();
+		}
 	public:
 		inline void Add(System* system) { m_Systems.push_back(system); };
 

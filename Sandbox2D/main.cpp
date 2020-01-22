@@ -42,7 +42,7 @@ class Level : public Fireblast::Scene
 
 class Game : public Fireblast::Application {
 
-
+public:
 	virtual void OnStart() override
 	{
 		Fireblast::FileUtils::FlipImages(true);
@@ -67,8 +67,7 @@ class Game : public Fireblast::Application {
 	{
 	}
 
-	virtual ~Game() override {
-	}
+	virtual ~Game() override {}
 
 };
 

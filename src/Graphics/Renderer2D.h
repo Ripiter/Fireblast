@@ -21,6 +21,8 @@ namespace Fireblast
 		Renderer2D()
 			: m_Vao(NULL), m_Vbo(NULL), m_Ibo(NULL), m_FlatShader(NULL), m_VerticeAmount(0) {}
 
+		virtual ~Renderer2D();
+
 		void BeginSubmit();
 		void EndSubmit();
 	private:
