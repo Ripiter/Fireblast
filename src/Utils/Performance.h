@@ -8,7 +8,7 @@
 #include <string>
 #include <thread>
 #include <sstream>
-#include <Windows.h>
+#include <sys/stat.h>
 
 namespace Fireblast { namespace Debug {
 
@@ -31,11 +31,9 @@ namespace Fireblast { namespace Debug {
 	public:
 		inline void OpenFile(const std::string& filename, std::string& path)
 		{
-			if (!CreateDirectory((LPCWSTR)path.c_str(), NULL))
-			{
-				mkdir(path.c_str());
-				FB_CORE_INFO("Created Folder {0}", path);
-			}
+			int status = mkdir(path.c_str());
+			if (status == 0)
+				FB_CORE_INFO("Created Directory {0}", path);
 
 			std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 			char buf[100] = { 0 };
