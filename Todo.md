@@ -27,7 +27,6 @@
 - [ ] Create universal load / unloading language.
 - [ ] A animation system, with blending of keyframes.
 - [ ] Perspective Camera.
-- [x] Add function time counter, to see performance for the application. -- In Progress
 - [x] Model Loader / Vertice loader. -- In Progress.
 
 ## Editor
@@ -38,6 +37,7 @@
 - [ ] Add Entity list for current loaded scene.
 
 ## Done
+- [x] Add function time counter, to see performance for the application.
 - [x] Create Resource manager.
 - [x] Sprite Component.
 - [x] Orthographic Camera
