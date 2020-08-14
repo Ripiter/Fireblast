@@ -20,6 +20,8 @@ namespace Fireblast
 	public:
 		std::vector<Entity*>& GetEntities() { return m_Entities; }
 		OrthographicCamera* GetOrthographicCamera() const { return m_OrthoCamera; }
+
+		void DestroyEntity(Entity* entity);
 	protected:
 		void SpawnEntity(Entity* entity);
 		void SpawnEntity(Entity* entity, glm::vec3 pos);
