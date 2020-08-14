@@ -22,6 +22,20 @@ namespace Fireblast
 	}
 
 
+	void Scene::DestroyEntity(Entity* entity)
+	{
+		FB_PERFORMANCE_PROFILE();
+
+		m_Entities.push_back(entity);
+
+		/*int index;
+		std::vector<Entity*>::iterator it = std::find(m_Entities.begin(), m_Entities.end(), entity);
+		if (it != m_Entities.end())
+		{
+			m_Entities.push_back(it - m_Entities.begin());
+		}*/
+	}
+
 	void Scene::SpawnEntity(Entity* entity)
 	{
 		FB_PERFORMANCE_PROFILE();
